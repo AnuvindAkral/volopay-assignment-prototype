@@ -156,7 +156,8 @@
       <div class="totals">
         <div><span>Sum of line net amounts <span class="pill">mf 30</span></span><b id="t_net">0.00</b></div>
         <div><span>Total without tax <span class="pill">mf 31</span></span><b id="t_excl">0.00</b></div>
-        <div><span>VAT total <span class="pill">mf 32</span></span><b id="t_vat">0.00</b></div>
+        <div><span>VAT total <span class="pill">mf 32</span></span><b id="t_vat">0.00</b>
+          <div style="margin-top:4px"><input id="f_vat_declared" type="number" step="any" aria-label="Declared VAT total (mandatory field 32)" style="padding:4px 6px;font-size:12px"> <button type="button" class="ghost small" onclick="resetDeclaredVat()" style="margin-top:4px">Use computed total</button><div class="note">Declared VAT total — the issuer's own figure for mandatory field 32. The simulated ASP re-checks it against the lines.</div></div></div>
         <div><span>Amount due (incl. tax) <span class="pill">mf 33 · 34</span></span><b id="t_incl">0.00</b></div>
       </div>
 
@@ -262,7 +263,7 @@ var SAMPLES = {
     ]
   },
   vatDrift: {
-    lead:"This sample applies a declared 5% VAT rate but the VAT breakdown total does not match the sum of line VAT. Pre-validation catches the arithmetic drift that ASPs reject.",
+    lead:"This sample declares a VAT total of 4160.00 (mandatory field 32) while the line items actually carry 520.00. The simulated ASP will reject it with a breakdown-mismatch code — exactly the class of error that stalls real collections.",
     f_num:"INV-2026-0150", f_issued:"2026-10-27", f_due:"2026-12-01", f_cur:"AED",
     f_biz:"A1", f_pay:"42",
     s_name:"Gulf Precision Facilities LLC", s_trn:"100123456700001", s_regid:"DED-887531", s_regidt:"TL",
@@ -270,31 +271,31 @@ var SAMPLES = {
     b_name:"Marine Axis Contracting LLC", b_trn:"100987654300002", b_ea:"100987654300002",
     b_addr:"Plot 14, Industrial Area 4", b_city:"Sharjah", b_sub:"AE-SH", b_cc:"AE",
     lines:[
-      {n:"Structural survey services", d:"Phase-2 report", q:"160", u:"HUR", p:"350", c:"S", r:"5"},
-      {n:"Compliance documentation", d:"Retainer", q:"1", u:"EA", p:"4800", c:"S", r:"5"}
+      {n:"Structural survey services", d:"Phase-2 report", q:"1", u:"EA", p:"10400", c:"S", r:"5"}
     ],
-    manualVat:"4160.00"
+    declaredVat:"4160"
   }
 };
 
 function loadSample(k){
   var s = SAMPLES[k]; if(!s) return;
-  if (confirmBox(s) === false) return;
   ["f_num","f_issued","f_due","f_cur","f_biz","f_pay","s_name","s_trn","s_regid","s_regidt","s_addr","s_city","s_sub","b_name","b_trn","b_ea","b_addr","b_city","b_sub","b_cc"].forEach(function(id){
     var el = document.getElementById(id); if(el){ el.value = s[id] || ""; }
   });
   document.getElementById("lines").innerHTML = "";
-  var arr = (s.lines && s.lines.length) ? s.lines.slice() : [];
-  if (k==="vatDrift"){ addLine(); setLine(0,"desc","Phase-2 report"); setLine(0,"qt","16"); }
-  arr.forEach(function(L){ addLine(); var i = document.querySelectorAll("#lines .lineRow").length-1; setLine(i,"n",L.n); setLine(i,"d",L.d); setLine(i,"q",L.q); setLine(i,"u",L.u); setLine(i,"p",L.p); setLine(i,"c",L.c); setLine(i,"r",L.r); });
-  document.querySelectorAll("#lines input, #lines select").forEach(function(el){ el.oninput = clearErr; el.onchange = function(){ clearErr(el); recalc(); }; });
-  document.getElementById("pre").innerHTML = "";
-  document.getElementById("aspResponse").innerHTML = "";
-  if (s.f_issued) { document.getElementById("f_issued").value = s.f_issued; document.getElementById("f_due").value = s.f_due || ""; }
+  (s.lines || []).forEach(function(L){
+    addLine();
+    var i = document.querySelectorAll("#lines .lineRow").length - 1;
+    setLine(i,"n",L.n); setLine(i,"d",L.d); setLine(i,"q",L.q); setLine(i,"u",L.u); setLine(i,"p",L.p); setLine(i,"c",L.c); setLine(i,"r",L.r);
+  });
+  if(document.querySelectorAll("#lines .lineRow").length === 0){ addLine(); }
   document.getElementById("pre").innerHTML = s.lead ? '<div class="callout warn"><b>Sample loaded:</b> ' + s.lead + "</div>" : "";
-  recalc(); tinMirror();
+  document.getElementById("aspResponse").innerHTML = "";
+  recalc();
+  document.getElementById("f_vat_declared").value = (s.declaredVat !== undefined) ? s.declaredVat : document.getElementById("t_vat").textContent;
+  document.getElementById("f_vat_declared").dataset.manual = (s.declaredVat !== undefined) ? "1" : "0";
+  tinMirror();
 }
-function confirmBox(s){ return confirm("Load sample data and clear the current form?"); }
 function setLine(i, f, v){
   var row = document.querySelectorAll("#lines .lineRow")[i]; if(!row) return;
   var el = row.querySelector('[data-f="'+f+'"]'); if(el){ el.value = v; }
@@ -373,6 +374,8 @@ function recalc(){
   document.getElementById("t_excl").textContent = m2(net);
   document.getElementById("t_vat").textContent = m2(vat);
   document.getElementById("t_incl").textContent = m2(net + vat);
+  var declared = document.getElementById("f_vat_declared");
+  if(declared && declared.dataset.manual !== "1"){ declared.value = m2(vat); }
 }
 
 /* ---------- validation: cloned from MOF mandatory-fields v1.1, 28 Oct 2026 ---------- */
@@ -431,19 +434,13 @@ function submitInvoice(){
     persistCurrent("blocked");
     return;
   }
-  /* arithmetic acceptance */
-  var L = lineData();
-  var declaredVat = res.tFields[2];
-  var drift = Math.abs(declaredVat - res.totVat);
-  var acceptance = {
-    mlsAccept: true,
-    rejectCode: null,
-    rejectReason: null
-  };
-  if(drift > 0.01){
-    acceptance.mlsAccept = false; acceptance.rejectCode = "BR-VAT-DRIFT"; acceptance.rejectReason = "VAT breakdown total (" + m2(declaredVat) + ") does not equal the sum of line VAT (" + m2(res.totVat) + ").";
-  } else if (document.getElementById("b_trn").value.trim().length !== 15 || document.getElementById("b_trn").value.trim().slice(0,10) !== document.getElementById("b_trn").value.trim().slice(0,10)){
-    acceptance.mlsAccept = false; acceptance.rejectCode = "BR-ID-TRN"; acceptance.rejectReason = "Buyer TRN failed TIN composition checks.";
+  /* ASP-level business-rule recheck (simulated): declared VAT vs line VAT */
+  var declaredVat = num(document.getElementById("f_vat_declared").value);
+  var acceptance = { mlsAccept: true, rejectCode: null, rejectReason: null };
+  if(Math.abs(declaredVat - res.totVat) > 0.01){
+    acceptance.mlsAccept = false;
+    acceptance.rejectCode = "BR-VAT-DRIFT";
+    acceptance.rejectReason = "Declared VAT total (" + m2(declaredVat) + " AED, mandatory field 32) does not equal the sum of line VAT (" + m2(res.totVat) + " AED).";
   }
   var stamp = nowStamp();
   current = {
@@ -535,12 +532,20 @@ function renderErrors(res){
   document.getElementById("pre").innerHTML =
     '<div class="callout bad"><b>Pre-validation failed · ' + res.errs.length + ' issue(s)</b>' +
     '<ul style="margin:8px 0 0 18px;padding:0;text-align:left">' + rows + "</ul>" +
-    "<div class='note' style='margin-top:8px'>These mirrors the checks an accredited service provider performs at intake. Fix each field and resubmit — nothing was sent.</div></div>";
+    "<div class='note' style='margin-top:8px'>This mirrors the checks an accredited service provider performs at intake. Fix each field and resubmit — nothing was sent.</div></div>";
   document.getElementById("aspResponse").innerHTML = "";
 }
 function setStatus(s, msg){ statusEcho = s + " · " + msg; }
 var statusEcho = "";
 
+function resetDeclaredVat(){
+  var d = document.getElementById("f_vat_declared");
+  d.dataset.manual = "0"; recalc(); clearErrById("f_vat_declared");
+}
+function clearErrById(id){
+  var el = document.getElementById(id); if(el){ el.classList.remove("bad"); }
+  var e = document.getElementById("e_" + id); if(e){ e.classList.remove("show"); }
+}
 function tinMirror(){
   var t = snapshotValue("s_trn");
   document.getElementById("s_ea").value = t.length === 15 ? t.slice(0,10) : "";
@@ -569,7 +574,7 @@ function renderRegister(){
     '<div class="bar"><button class="ghost small" onclick="clearReg()">Clear register</button></div>';
 }
 function clearReg(){ if(confirm("Clear all invoices from this browser?")){ invoices = []; save(); renderRegister(); } }
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&","<":"<",">":">",'"':""","'":"&#39;"}[c]; }); }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"\u0026amp;","<":"\u0026lt;",">":"\u0026gt;","\"":"\u0026quot;","'":"\u0026#39;"}[c]; }); }
 
 /* ---------- init ---------- */
 document.addEventListener("DOMContentLoaded", function(){
