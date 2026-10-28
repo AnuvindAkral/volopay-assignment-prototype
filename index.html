@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Invoice Compliance Check (UAE) — Volopay AR Concept Prototype</title>
+  <link rel="icon" href="data:,">
 <style>
   :root{
     --ink:#0f172a; --sub:#475569; --line:#e2e8f0; --bg:#f6f8fb; --card:#ffffff;
@@ -185,8 +186,8 @@
       <div class="totals">
         <div><span>Sum of line net amounts</span><b id="t_net">0.00</b></div>
         <div><span>Total without tax</span><b id="t_excl">0.00</b></div>
-        <div><span>VAT total</span><b id="t_vat">0.00</b>
-          <div style="margin-top:4px"><input id="f_vat_declared" type="number" step="any" aria-required="true" aria-label="VAT total declared on the invoice" oninput="this.dataset.manual='1'" style="padding:4px 6px;font-size:12px"> <button type="button" class="ghost small" onclick="resetDeclaredVat()" style="margin-top:4px">Use the calculated total</button><div class="note"><span class="req" aria-hidden="true">*</span> Declared VAT total — prefilled from the lines; the provider re-checks it against them.</div></div></div>
+        <div><span>VAT total <span class="req" aria-hidden="true">*</span></span><b id="t_vat">0.00</b>
+          <div style="margin-top:4px"><input id="f_vat_declared" type="number" step="any" aria-required="true" aria-label="VAT total declared on the invoice" oninput="this.dataset.manual='1'" style="padding:4px 6px;font-size:12px"> <button type="button" class="ghost small" onclick="resetDeclaredVat()" style="margin-top:4px">Use the calculated total</button><div class="note">Declared VAT total — prefilled from the lines; the provider re-checks it against them.</div></div></div>
         <div><span>Amount due (incl. tax)</span><b id="t_incl">0.00</b></div>
       </div>
 
@@ -208,7 +209,7 @@
 <section id="view-list" role="tabpanel" aria-label="Invoice register" style="display:none">
   <div class="card">
     <h2>Invoice register</h2>
-    <div class="sub">Every invoice you check is saved in this browser. All statuses are simulated — no money has been collected.</div>
+    <div class="sub">Every invoice you check is recorded here — and an accepted invoice is never downgraded by a later failed attempt. All statuses are simulated — no money has been collected.</div>
     <div id="regBody"></div>
   </div>
   <div class="card">
@@ -242,7 +243,7 @@
         <tr><td><b>Database</b></td><td>Browser storage (localStorage) — register only</td><td>Production database with an immutable audit log</td></tr>
         <tr><td><b>ERP / accounting</b></td><td>Not connected</td><td>Sync with NetSuite, Xero, QuickBooks, Tally</td></tr>
         <tr><td><b>E-invoicing partner</b></td><td>Deterministic simulation — no network calls</td><td>Accredited provider (UAE) / GSP–IRP (India) over their APIs</td></tr>
-        <tr><td><b>Tax authority</b></td><td>Not contacted</td><td>The accredited provider reports the Tax Data Document to the FTA</td></tr>
+        <tr><td><b>Tax authority</b></td><td>Not contacted</td><td>The accredited provider reports the invoice to the Federal Tax Authority (FTA)</td></tr>
       </tbody>
     </table>
     <div class="note" style="margin-top:8px">Everything in this demo is simulated. No real provider, tax authority, ERP or database is contacted.</div>
@@ -591,7 +592,7 @@ function renderAsp(payload, acceptance){
   var mls = { exchange: acceptance.mlsAccept ? "ACCEPTED" : "REJECTED", code: acceptance.mlsAccept ? "ML-1 OK" : (acceptance.rejectCode || "ML-1 ERR") };
   var tdd = acceptance.mlsAccept ? "reported to the tax authority (simulated)" : "not reported (rejected)";
   var head = acceptance.mlsAccept
-    ? '<div class="callout ok"><b>Provider response (simulated) · Accepted</b><br><span class="note">The invoice is compliant and would now enter your receivables workflow with a collectible balance. Tax report: ' + tdd + '.</span></div>'
+    ? '<div class="callout ok"><b>Provider response (simulated) · Accepted</b><br><span class="note">The invoice is compliant and would now enter your receivables workflow with a collectible balance. Tax report: ' + tdd + '.</span><br><span class="note">See it in <a href="#" onclick="show(\'list\');return false" style="color:inherit">the invoice register (tab 2)</a>.</span></div>'
     : '<div class="callout bad"><b>Provider response (simulated) · Rejected</b><br><span class="note">' + acceptance.rejectReason + (acceptance.rejectCode === "BR-VAT-DRIFT" ? ' Correct the VAT total (or press "Use the calculated total") and check again.' : ' Fix the flagged issue and check again.') + '</span></div>';
   document.getElementById("aspResponse").innerHTML = head +
     '<details><summary style="cursor:pointer;font-size:12px;color:var(--sub);margin:8px 0">Technical response (codes and payload sent to the provider)</summary>' +
