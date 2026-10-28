@@ -39,6 +39,7 @@
   .lineNet{font-size:11.5px;color:var(--sub);padding-top:8px}
   button.primary{background:var(--accent);border:none;color:#fff;padding:14px 20px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer}
   button.primary:hover{background:var(--accent-dk)}
+  button.primary[disabled]{opacity:.6;cursor:default}
   button.ghost{background:#fff;border:1px solid var(--line);padding:8px 14px;border-radius:9px;font-size:13px;cursor:pointer;color:var(--ink)}
   button.small{padding:8px 12px;font-size:12px}
   .bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
@@ -50,6 +51,7 @@
   .s-blocked{background:var(--badbg);color:var(--bad)}
   .s-accepted{background:var(--okbg);color:var(--ok)}
   .s-rejected{background:#fee4e2;color:#b42318}
+  .s-draft{background:#f1f5f9;color:#475569}
   input[readonly]{background:#f1f5f9;color:var(--sub)}
   :focus-visible{outline:2px solid var(--accent);outline-offset:1px}
   .rowerr{grid-column:1/-1}
@@ -174,7 +176,7 @@
       </div>
 
       <div class="bar">
-        <button type="button" class="primary" onclick="submitInvoice()">Pre-validate & submit to simulated ASP</button>
+        <button type="button" id="btn-submit" class="primary" onclick="submitInvoice()">Pre-validate & submit to simulated ASP</button>
         <span class="note">Submission is fully simulated. No real ASP, IRP or tax authority is contacted.</span>
       </div>
       <div id="pre" role="alert" style="margin-top:12px"></div>
@@ -458,41 +460,58 @@ function validate(){
 /* ---------- submission (simulated ASP) ---------- */
 var current = null;
 function submitInvoice(){
-  recalc();
-  var res = validate();
-  current = {
-    id: snapshotValue("f_num") || ("AUTO-" + (seq++)),
-    issued: snapshotValue("f_issued"), due: snapshotValue("f_due"),
-    buyer: snapshotValue("b_name"), buyerTrn: snapshotValue("b_trn"),
-    total: document.getElementById("t_incl").textContent,
-    vat: document.getElementById("t_vat").textContent,
-    status: "none", ts: nowStamp()
-  };
-  if(res.errs.length){
-    renderErrors(res);
-    persistCurrent(true);
-    return;
+  var btn = document.getElementById("btn-submit");
+  if(btn && btn.disabled) return; /* double-click guard */
+  if(btn){ btn.disabled = true; }
+  try{
+    recalc();
+    var res = validate();
+    current = {
+      id: nextAutoIdIfNeeded(),
+      issued: snapshotValue("f_issued"), due: snapshotValue("f_due"),
+      buyer: snapshotValue("b_name"), buyerTrn: snapshotValue("b_trn"),
+      cur: snapshotValue("f_cur"),
+      total: document.getElementById("t_incl").textContent,
+      vat: document.getElementById("t_vat").textContent,
+      status: "none", ts: nowStamp()
+    };
+    if(res.errs.length){
+      renderErrors(res);
+      persistCurrent(true);
+      return;
+    }
+    /* ASP-level business-rule recheck (simulated): declared VAT vs line VAT */
+    var L = lineData();
+    var declaredVat = num(document.getElementById("f_vat_declared").value);
+    var acceptance = { mlsAccept: true, rejectCode: null, rejectReason: null };
+    if(Math.abs(declaredVat - res.totVat) > 0.01){
+      acceptance.mlsAccept = false;
+      acceptance.rejectCode = "BR-VAT-DRIFT";
+      acceptance.rejectReason = "Declared VAT total (" + m2(declaredVat) + " AED, mandatory field 32) does not equal the sum of line VAT (" + m2(res.totVat) + " AED).";
+    }
+    document.getElementById("pre").innerHTML = '<div class="callout ok"><b>Pre-validation passed.</b> All checked mandatory fields (MOF list v1.1) are present and internally consistent; the seller electronic address fields (mf 11–12) are derived from the seller TRN.'
+      + '<br><span class="note">Pre-validation checks structure and mandatory fields; the (simulated) ASP then re-checks business rules — a pass here does not guarantee acceptance. In production the request would now go to the accredited service provider; here it is simulated deterministically.</span></div>';
+    var payload = buildPayload(L);
+    renderAsp(payload, acceptance);
+    persistCurrent(false);
+    show("build");
+    if(!acceptance.mlsAccept && acceptance.rejectCode === "BR-VAT-DRIFT"){
+      try{ document.getElementById("f_vat_declared").scrollIntoView({behavior:"smooth", block:"center"}); }catch(e){}
+    } else {
+      try{ document.getElementById("aspResponse").scrollIntoView({behavior:"smooth", block:"nearest"}); }catch(e){}
+    }
+  } finally {
+    /* re-enable after a beat so a fast double-click cannot fire two submissions */
+    if(btn){ setTimeout(function(){ btn.disabled = false; }, 500); }
   }
-  /* ASP-level business-rule recheck (simulated): declared VAT vs line VAT */
-  var L = lineData();
-  var declaredVat = num(document.getElementById("f_vat_declared").value);
-  var acceptance = { mlsAccept: true, rejectCode: null, rejectReason: null };
-  if(Math.abs(declaredVat - res.totVat) > 0.01){
-    acceptance.mlsAccept = false;
-    acceptance.rejectCode = "BR-VAT-DRIFT";
-    acceptance.rejectReason = "Declared VAT total (" + m2(declaredVat) + " AED, mandatory field 32) does not equal the sum of line VAT (" + m2(res.totVat) + " AED).";
-  }
-  document.getElementById("pre").innerHTML = '<div class="callout ok"><b>Pre-validation passed.</b> All checked mandatory fields (MOF list v1.1) are present and internally consistent; the seller electronic address fields (mf 11–12) are derived from the seller TRN.'
-    + '<br><span class="note">Pre-validation checks structure and mandatory fields; the (simulated) ASP then re-checks business rules — a pass here does not guarantee acceptance. In production the request would now go to the accredited service provider; here it is simulated deterministically.</span></div>';
-  var payload = buildPayload(L);
-  renderAsp(payload, acceptance);
-  persistCurrent(false);
-  show("build");
-  if(!acceptance.mlsAccept && acceptance.rejectCode === "BR-VAT-DRIFT"){
-    try{ document.getElementById("f_vat_declared").scrollIntoView({behavior:"smooth", block:"center"}); }catch(e){}
-  } else {
-    try{ document.getElementById("aspResponse").scrollIntoView({behavior:"smooth", block:"nearest"}); }catch(e){}
-  }
+}
+/* Empty invoice number falls back to a generated id; skip any id already in the register */
+function nextAutoIdIfNeeded(){
+  var typed = snapshotValue("f_num");
+  if(typed) return typed;
+  var id;
+  do { id = "AUTO-" + (seq++); } while (invoices.some(function(x){ return x.id === id; }));
+  return id;
 }
 function snapshotValue(id){ var el = document.getElementById(id); return el ? el.value.trim() : ""; }
 function persistCurrent(blocked){
@@ -502,9 +521,13 @@ function persistCurrent(blocked){
 function saveInvoice(final){
   if(!current) return;
   var existing = invoices.find(function(x){ return x.id === current.id; });
+  /* An accepted invoice is a fact already reported to the (simulated) FTA — later
+     failed attempts at the same number never downgrade or erase it. */
+  if (existing && existing.status === "accepted" && final !== "accepted"){ current = null; return; }
   var rec = {
     id: current.id, issued: current.issued, due: current.due,
     buyer: current.buyer, buyerTrn: current.buyerTrn,
+    cur: current.cur || "AED",
     total: current.total, vat: current.vat,
     status: final || (existing ? existing.status : "draft"),
     mls: (final === "blocked") ? null : (current.mls || (existing ? existing.mls : null)),
@@ -589,7 +612,7 @@ function resetDeclaredVat(){
   d.dataset.manual = "0"; recalc(); clearErrById("f_vat_declared");
 }
 function clearErrById(id){
-  var el = document.getElementById(id); if(el){ el.classList.remove("bad"); }
+  var el = document.getElementById(id); if(el){ el.classList.remove("bad"); el.removeAttribute("aria-invalid"); el.removeAttribute("aria-describedby"); }
   var e = document.getElementById("e_" + id); if(e){ e.classList.remove("show"); }
 }
 function clearErr(id){ clearErrById(id); }
@@ -598,7 +621,10 @@ function tinMirror(){
   document.getElementById("s_ea").value = t.length === 15 ? t.slice(0,10) : "";
   document.getElementById("s_tin").textContent = t.length === 15 ? ("Derived TIN (first 10 digits): " + t.slice(0,10) + " — this becomes the seller electronic address (MF 11) with endpoint 0235 (MF 12).") : "";
 }
-function nowStamp(){ return new Date().toISOString().slice(0,16).replace("T"," ") + " GST (UTC+4)"; }
+function nowStamp(){
+  /* Gulf Standard Time = UTC+4, no DST */
+  return new Date(Date.now() + 4 * 3600 * 1000).toISOString().slice(0, 16).replace("T", " ") + " GST (UTC+4)";
+}
 
 /* ---------- register ---------- */
 function renderRegister(){
@@ -608,13 +634,15 @@ function renderRegister(){
     return;
   }
   var rows = invoices.map(function(x){
-    var cls = "s-" + (x.status || "draft");
-    var mlsNote = x.mls ? (" · MLS: " + x.mls.code + " " + x.mls.exchange + (x.mls.reason ? " (" + escapeHtml(x.mls.reason) + ")" : "")) : "";
-    var follow = (x.status === "accepted") ? '<div class="note">Handoff (concept): enters the AR collections worklist; balance due ' + escapeHtml(x.total) + " AED due " + escapeHtml(x.due) + "; follow-up draft prepared for review. Simulated.</div>" : "";
+    var cur = x.cur || "AED";
+    var st = (["blocked","accepted","rejected"].indexOf(x.status) > -1) ? x.status : "draft";
+    var cls = "s-" + st;
+    var mlsNote = x.mls ? (" · MLS: " + escapeHtml(x.mls.code) + " " + escapeHtml(x.mls.exchange) + (x.mls.reason ? " (" + escapeHtml(x.mls.reason) + ")" : "")) : "";
+    var follow = (st === "accepted") ? '<div class="note">Handoff (concept): enters the AR collections worklist; balance due ' + escapeHtml(x.total) + " " + escapeHtml(cur) + " due " + escapeHtml(x.due) + "; follow-up draft prepared for review. Simulated.</div>" : "";
     return "<tr><td><b>" + escapeHtml(x.id) + "</b><br><span class='note'>" + escapeHtml(x.ts) + "</span></td>" +
       "<td>" + escapeHtml(x.buyer) + "<br><span class='note'>TRN ..." + escapeHtml(String(x.buyerTrn || "").slice(-6)) + "</span></td>" +
-      "<td>" + escapeHtml(x.total) + " AED<br><span class='note'>VAT " + escapeHtml(x.vat) + "</span></td>" +
-      "<td><span class='status " + cls + "'>" + escapeHtml((x.status||"draft").toUpperCase()) + "</span>" + mlsNote + "</td>" +
+      "<td>" + escapeHtml(x.total) + " " + escapeHtml(cur) + "<br><span class='note'>VAT " + escapeHtml(x.vat) + " " + escapeHtml(cur) + "</span></td>" +
+      "<td><span class='status " + cls + "'>" + escapeHtml(st.toUpperCase()) + "</span>" + mlsNote + "</td>" +
       "<td>" + (follow || '<div class="note">Blocked/rejected invoices never left the (simulated) building.</div>') + "</td></tr>";
   }).join("");
   body.innerHTML = "<table><thead><tr><th>Invoice</th><th>Buyer</th><th>Amount</th><th>Status</th><th>AR handoff</th></tr></thead><tbody>" + rows + "</tbody></table>" +
