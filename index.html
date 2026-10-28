@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Invoice Compliance Check (UAE) — Volopay AR Concept Prototype</title>
+<title>Invoice Compliance Check (UAE) · Volopay AR Concept Prototype</title>
   <link rel="icon" href="data:,">
 <style>
   :root{
@@ -102,7 +102,7 @@
 <section id="view-build" role="tabpanel" aria-label="Create and submit invoice">
   <div class="card">
     <h2>Create an invoice</h2>
-    <div class="sub">For UAE finance teams: create an invoice, check it against the official mandatory-fields list, and fix anything the provider would reject — before it reaches your customer. All in one place.</div>
+    <div class="sub">For UAE finance teams: create an invoice, check it against the official mandatory-fields list, and fix anything the provider would reject before it reaches your customer. All in one place.</div>
     <div class="bar" style="margin:0 0 6px">
       <span style="font-size:12.5px;font-weight:600;color:var(--sub)">Start with a sample:</span>
       <button type="button" class="ghost small" onclick="loadSample('clean')">Valid invoice</button>
@@ -120,9 +120,9 @@
           <div><label for="f_cur" title="UAE MoF mandatory field 4">Currency <span class="req" aria-hidden="true">*</span></label>
             <select id="f_cur" aria-required="true" onchange="clearErr('f_cur')"><option value="AED">AED</option><option value="USD">USD</option><option value="EUR">EUR</option></select></div>
           <div><label for="f_biz" title="UAE MoF mandatory field 7">Invoice type <span class="req" aria-hidden="true">*</span></label>
-            <select id="f_biz" aria-required="true" onchange="clearErr('f_biz')"><option value="">— select —</option><option value="A1">Standard B2B invoice</option><option value="B2">Credit note</option></select></div>
+            <select id="f_biz" aria-required="true" onchange="clearErr('f_biz')"><option value="">Select an option</option><option value="A1">Standard B2B invoice</option><option value="B2">Credit note</option></select></div>
           <div><label for="f_pay" title="UAE MoF mandatory field 9">Payment method <span class="req" aria-hidden="true">*</span></label>
-            <select id="f_pay" aria-required="true" onchange="clearErr('f_pay')"><option value="">— select —</option><option value="42">Bank transfer</option><option value="10">Cash</option><option value="20">Cheque</option><option value="30">Card</option></select></div>
+            <select id="f_pay" aria-required="true" onchange="clearErr('f_pay')"><option value="">Select an option</option><option value="42">Bank transfer</option><option value="10">Cash</option><option value="20">Cheque</option><option value="30">Card</option></select></div>
         </div>
       </fieldset>
 
@@ -130,7 +130,7 @@
         <summary style="cursor:pointer;font-size:12.5px;font-weight:600;color:var(--sub);margin-bottom:8px">Advanced fields (prefilled for this demo)</summary>
         <fieldset style="margin-bottom:0"><legend>Transaction type flags</legend>
           <div class="grid">
-            <div class="span2"><label for="f_flags" title="UAE MoF mandatory field 5">Transaction type flags — free-trade-zone · deemed-supply · margin-scheme · summary · continuous · disclosed-agent · e-commerce · exports</label>
+            <div class="span2"><label for="f_flags" title="UAE MoF mandatory field 5">Transaction type flags: free-trade-zone · deemed-supply · margin-scheme · summary · continuous · disclosed-agent · e-commerce · exports</label>
               <input id="f_flags" readonly tabindex="-1" value="00000000">
             </div>
           </div>
@@ -138,21 +138,21 @@
       </details>
 
       <details id="sellerDetails">
-        <summary style="cursor:pointer;font-size:12.5px;font-weight:600;color:var(--sub);margin:12px 0 8px">Your business (prefilled for this demo — click to edit)</summary>
+        <summary style="cursor:pointer;font-size:12.5px;font-weight:600;color:var(--sub);margin:12px 0 8px">Your business (prefilled for this demo, click to edit)</summary>
       <fieldset style="margin-bottom:0"><legend>Seller details</legend>
         <div class="grid">
           <div class="span2"><label for="s_name" title="UAE MoF mandatory field 10">Business name <span class="req" aria-hidden="true">*</span></label><input id="s_name" value="Gulf Precision Facilities LLC" aria-required="true" oninput="clearErr('s_name')"><div class="err" id="e_s_name"></div></div>
           <div><label for="s_trn" title="UAE MoF mandatory field 15">Your TRN · 15 digits <span class="req" aria-hidden="true">*</span></label><input id="s_trn" maxlength="15" value="100123456700001" aria-required="true" oninput="clearErr('s_trn'); tinMirror()"><div class="err" id="e_s_trn"></div><div class="note" id="s_tin"></div></div>
           <div><label for="s_regid" title="UAE MoF mandatory field 13">Trade licence / registration ID <span class="req" aria-hidden="true">*</span></label><input id="s_regid" value="DED-887531" aria-required="true" oninput="clearErr('s_regid')"><div class="err" id="e_s_regid"></div></div>
           <div><label for="s_regidt" title="UAE MoF mandatory field 14">Registration ID type <span class="req" aria-hidden="true">*</span></label>
-            <select id="s_regidt" aria-required="true" onchange="clearErr('s_regidt')"><option value="">— select —</option><option value="TL" selected>Trade licence</option><option value="EID">Emirates ID</option><option value="PAS">Passport</option><option value="CD">Cabinet decision</option></select><div class="err" id="e_s_regidt"></div></div>
+            <select id="s_regidt" aria-required="true" onchange="clearErr('s_regidt')"><option value="">Select an option</option><option value="TL" selected>Trade licence</option><option value="EID">Emirates ID</option><option value="PAS">Passport</option><option value="CD">Cabinet decision</option></select><div class="err" id="e_s_regidt"></div></div>
           <div class="span2"><label for="s_addr" title="UAE MoF mandatory field 17">Business address <span class="req" aria-hidden="true">*</span></label><input id="s_addr" value="Unit 704, Axis Business Park" aria-required="true" oninput="clearErr('s_addr')"><div class="err" id="e_s_addr"></div></div>
           <div><label for="s_city" title="UAE MoF mandatory field 18">City <span class="req" aria-hidden="true">*</span></label><input id="s_city" value="Dubai" aria-required="true" oninput="clearErr('s_city')"><div class="err" id="e_s_city"></div></div>
           <div><label for="s_sub" title="UAE MoF mandatory field 19">Emirate <span class="req" aria-hidden="true">*</span></label>
-            <select id="s_sub" aria-required="true" onchange="clearErr('s_sub')"><option value="">— select —</option><option value="AE-DU" selected>Dubai</option><option value="AE-AZ">Abu Dhabi</option><option value="AE-SH">Sharjah</option><option value="AE-RK">Ras al-Khaimah</option></select><div class="err" id="e_s_sub"></div></div>
-          <div><label for="s_cc" title="UAE MoF mandatory field 20 — derived">Country (fixed for this demo)</label><input id="s_cc" value="AE" readonly tabindex="-1"></div>
-          <div><label for="s_eid" title="UAE MoF mandatory field 12 — derived">E-invoice identifier (derived)</label><input id="s_eid" value="0235" readonly tabindex="-1"></div>
-          <div class="span2"><label for="s_ea" title="UAE MoF mandatory field 11 — derived from your TRN">E-invoice address (derived from your TRN)</label><input id="s_ea" readonly tabindex="-1"></div>
+            <select id="s_sub" aria-required="true" onchange="clearErr('s_sub')"><option value="">Select an option</option><option value="AE-DU" selected>Dubai</option><option value="AE-AZ">Abu Dhabi</option><option value="AE-SH">Sharjah</option><option value="AE-RK">Ras al-Khaimah</option></select><div class="err" id="e_s_sub"></div></div>
+          <div><label for="s_cc" title="UAE MoF mandatory field 20 - derived">Country (fixed for this demo)</label><input id="s_cc" value="AE" readonly tabindex="-1"></div>
+          <div><label for="s_eid" title="UAE MoF mandatory field 12 - derived">E-invoice identifier (derived)</label><input id="s_eid" value="0235" readonly tabindex="-1"></div>
+          <div class="span2"><label for="s_ea" title="UAE MoF mandatory field 11 - derived from your TRN">E-invoice address (derived from your TRN)</label><input id="s_ea" readonly tabindex="-1"></div>
         </div>
       </fieldset>
       </details>
@@ -166,12 +166,12 @@
             </datalist>
           </div>
           <div><label for="b_trn" title="UAE MoF mandatory field 24">Customer TRN · 15 digits <span class="req" aria-hidden="true">*</span></label><input id="b_trn" maxlength="15" aria-required="true" oninput="clearErr('b_trn')"><div class="err" id="e_b_trn"></div></div>
-          <div><label for="b_ea" title="UAE MoF mandatory field 22">Customer e-invoice address <span class="req" aria-hidden="true">*</span></label><input id="b_ea" aria-required="true" oninput="clearErr('b_ea')"><div class="err" id="e_b_ea"></div><div class="note">Where the provider delivers the invoice — usually the customer's TRN.</div></div>
+          <div><label for="b_ea" title="UAE MoF mandatory field 22">Customer e-invoice address <span class="req" aria-hidden="true">*</span></label><input id="b_ea" aria-required="true" oninput="clearErr('b_ea')"><div class="err" id="e_b_ea"></div><div class="note">Where the provider delivers the invoice, usually the customer's TRN.</div></div>
           <div class="span2"><label for="b_addr" title="UAE MoF mandatory field 26">Customer address <span class="req" aria-hidden="true">*</span></label><input id="b_addr" aria-required="true" oninput="clearErr('b_addr')"><div class="err" id="e_b_addr"></div></div>
           <div><label for="b_city" title="UAE MoF mandatory field 27">Customer city <span class="req" aria-hidden="true">*</span></label><input id="b_city" aria-required="true" oninput="clearErr('b_city')"><div class="err" id="e_b_city"></div></div>
           <div><label for="b_sub" title="UAE MoF mandatory field 28">Customer Emirate <span class="req" aria-hidden="true">*</span></label>
-            <select id="b_sub" aria-required="true" onchange="clearErr('b_sub')"><option value="">— select —</option><option value="AE-DU">Dubai</option><option value="AE-AZ">Abu Dhabi</option><option value="AE-SH">Sharjah</option><option value="AE-RK">Ras al-Khaimah</option></select><div class="err" id="e_b_sub"></div></div>
-          <div><label for="b_cc" title="UAE MoF mandatory field 29 — fixed for this demo">Country (fixed for this demo)</label>
+            <select id="b_sub" aria-required="true" onchange="clearErr('b_sub')"><option value="">Select an option</option><option value="AE-DU">Dubai</option><option value="AE-AZ">Abu Dhabi</option><option value="AE-SH">Sharjah</option><option value="AE-RK">Ras al-Khaimah</option></select><div class="err" id="e_b_sub"></div></div>
+          <div><label for="b_cc" title="UAE MoF mandatory field 29 - fixed for this demo">Country (fixed for this demo)</label>
             <select id="b_cc" onchange="clearErr('b_cc')"><option value="AE">AE</option></select>
             <div class="note">This demo covers UAE domestic B2B only.</div></div>
         </div>
@@ -187,7 +187,7 @@
         <div><span>Sum of line net amounts</span><b id="t_net">0.00</b></div>
         <div><span>Total without tax</span><b id="t_excl">0.00</b></div>
         <div><span>VAT total <span class="req" aria-hidden="true">*</span></span><b id="t_vat">0.00</b>
-          <div style="margin-top:4px"><input id="f_vat_declared" type="number" step="any" aria-required="true" aria-label="VAT total declared on the invoice" oninput="this.dataset.manual='1'" style="padding:4px 6px;font-size:12px"> <button type="button" class="ghost small" onclick="resetDeclaredVat()" style="margin-top:4px">Use the calculated total</button><div class="note">Declared VAT total — prefilled from the lines; the provider re-checks it against them.</div></div></div>
+          <div style="margin-top:4px"><input id="f_vat_declared" type="number" step="any" aria-required="true" aria-label="VAT total declared on the invoice" oninput="this.dataset.manual='1'" style="padding:4px 6px;font-size:12px"> <button type="button" class="ghost small" onclick="resetDeclaredVat()" style="margin-top:4px">Use the calculated total</button><div class="note">Declared VAT total - prefilled from the lines; the provider re-checks it against them.</div></div></div>
         <div><span>Amount due (incl. tax)</span><b id="t_incl">0.00</b></div>
       </div>
 
@@ -209,12 +209,12 @@
 <section id="view-list" role="tabpanel" aria-label="Invoice register" style="display:none">
   <div class="card">
     <h2>Invoice register</h2>
-    <div class="sub">Every invoice you check is recorded here — and an accepted invoice is never downgraded by a later failed attempt. All statuses are simulated — no money has been collected.</div>
+    <div class="sub">Every invoice you check is recorded here, and an accepted invoice is never downgraded by a later failed attempt. All statuses are simulated; no money has been collected.</div>
     <div id="regBody"></div>
   </div>
   <div class="card">
     <h2>What happens after acceptance (concept)</h2>
-    <div class="sub">The idea: compliance is not a portal visit, it is the first step of getting paid. An accepted invoice would move into the receivables workflow — collections, payment matching, books updated.</div>
+    <div class="sub">The idea: compliance is not a portal visit, it is the first step of getting paid. An accepted invoice would move into the receivables workflow: collections, payment matching, books updated.</div>
     <div class="flow">
       <span class="step">Invoice accepted (simulated)</span><span class="arw">→</span>
       <span class="step">Collections follow-up</span><span class="arw">→</span>
@@ -240,9 +240,9 @@
       <tbody>
         <tr><td><b>Interface</b></td><td>This page: HTML/CSS/JS, one file, no build step</td><td>Volopay AR web app</td></tr>
         <tr><td><b>Checks</b></td><td>Browser-side rules cloned from the UAE MoF mandatory-fields list (v1.1)</td><td>Server-side validation service, same rules plus country packs</td></tr>
-        <tr><td><b>Database</b></td><td>Browser storage (localStorage) — register only</td><td>Production database with an immutable audit log</td></tr>
+        <tr><td><b>Database</b></td><td>Browser storage (localStorage), register only</td><td>Production database with an immutable audit log</td></tr>
         <tr><td><b>ERP / accounting</b></td><td>Not connected</td><td>Sync with NetSuite, Xero, QuickBooks, Tally</td></tr>
-        <tr><td><b>E-invoicing partner</b></td><td>Deterministic simulation — no network calls</td><td>Accredited provider (UAE) / GSP–IRP (India) over their APIs</td></tr>
+        <tr><td><b>E-invoicing partner</b></td><td>Deterministic simulation; no network calls</td><td>Accredited provider (UAE) / GSP-IRP (India) over their APIs</td></tr>
         <tr><td><b>Tax authority</b></td><td>Not contacted</td><td>The accredited provider reports the invoice to the Federal Tax Authority (FTA)</td></tr>
       </tbody>
     </table>
@@ -304,7 +304,7 @@ var SAMPLES = {
     ]
   },
   vatDrift: {
-    lead:"This sample declares a VAT total of 4160.00 while the line items actually carry 520.00. The simulated provider will reject it — exactly the kind of mismatch that stalls real collections. Fix it with \"Use the calculated total\".",
+    lead:"This sample declares a VAT total of 4160.00 while the line items actually carry 520.00. The simulated provider will reject it; exactly the kind of mismatch that stalls real collections. Fix it with \"Use the calculated total\".",
     f_num:"INV-2026-0150", f_issued:"2026-10-27", f_due:"2026-12-01", f_cur:"AED",
     f_biz:"A1", f_pay:"42",
     s_name:"Gulf Precision Facilities LLC", s_trn:"100123456700001", s_regid:"DED-887531", s_regidt:"TL",
@@ -446,21 +446,21 @@ function validate(){
   if(!v("f_num")) add("f_num", "Invoice number", "Enter an invoice number, e.g. INV-2026-0151. Resubmitting the same number updates that invoice's status.");
   if(!v("f_issued")) add("f_issued", "Invoice date", "Pick the invoice date.");
   if(!v("f_due")) add("f_due", "Payment due date", "Set the payment due date.");
-  if(v("f_issued") && v("f_due") && v("f_due") < v("f_issued")) add("f_due", "Payment due date", "The due date is before the invoice date — set it on or after the invoice date.");
-  if(!v("f_biz")) add("f_biz", "Invoice type", "Select the invoice type — usually \"Standard B2B invoice\".");
-  if(!v("f_pay")) add("f_pay", "Payment method", "Select how this invoice will be paid — usually \"Bank transfer\".");
+  if(v("f_issued") && v("f_due") && v("f_due") < v("f_issued")) add("f_due", "Payment due date", "The due date is before the invoice date; set it on or after the invoice date.");
+  if(!v("f_biz")) add("f_biz", "Invoice type", "Select the invoice type, usually \"Standard B2B invoice\".");
+  if(!v("f_pay")) add("f_pay", "Payment method", "Select how this invoice will be paid, usually \"Bank transfer\".");
 
   if(!v("s_name")) add("s_name", "Business name", "Enter your business name as it is legally registered.");
   if(!/^\d{15}$/.test(v("s_trn"))) add("s_trn", "Your TRN", "Enter your full 15-digit Tax Registration Number (TRN).");
   if(!v("s_regid")) add("s_regid", "Trade licence / registration ID", "Enter your trade licence or registration number.");
-  if(!v("s_regidt")) add("s_regidt", "Registration ID type", "Select what the registration ID is — usually \"Trade licence\".");
+  if(!v("s_regidt")) add("s_regidt", "Registration ID type", "Select what the registration ID is, usually \"Trade licence\".");
   if(!v("s_addr")) add("s_addr", "Business address", "Enter your business street address.");
   if(!v("s_city")) add("s_city", "City", "Enter your business city.");
   if(!v("s_sub")) add("s_sub", "Emirate", "Select your Emirate.");
 
   if(!v("b_name")) add("b_name", "Customer name", "Enter the customer's name as it is legally registered.");
-  if(!/^\d{15}$/.test(v("b_trn"))) add("b_trn", "Customer TRN", "Enter the customer's full 15-digit TRN — B2B e-invoices cannot go out without it.");
-  if(!v("b_ea")) add("b_ea", "Customer e-invoice address", "Enter the customer's e-invoice address — usually the same 15 digits as their TRN.");
+  if(!/^\d{15}$/.test(v("b_trn"))) add("b_trn", "Customer TRN", "Enter the customer's full 15-digit TRN; B2B e-invoices cannot go out without it.");
+  if(!v("b_ea")) add("b_ea", "Customer e-invoice address", "Enter the customer's e-invoice address, usually the same 15 digits as their TRN.");
   if(!v("b_addr")) add("b_addr", "Customer address", "Enter the customer's street address.");
   if(!v("b_city")) add("b_city", "Customer city", "Enter the customer's city.");
   if(!v("b_sub")) add("b_sub", "Customer Emirate", "Select the customer's Emirate.");
@@ -523,7 +523,7 @@ function submitInvoice(){
       acceptance.rejectReason = "The declared VAT total (" + m2(declaredVat) + " AED) doesn't match the VAT on the line items (" + m2(res.totVat) + " AED).";
     }
     document.getElementById("pre").innerHTML = '<div class="callout ok"><b>Local check passed.</b> All required fields are present and consistent.'
-      + '<br><span class="note">The provider now re-checks the invoice against its own business rules — a pass here does not guarantee acceptance.</span></div>';
+      + '<br><span class="note">The provider now re-checks the invoice against its own business rules - a pass here does not guarantee acceptance.</span></div>';
     var payload = buildPayload(L);
     renderAsp(payload, acceptance);
     persistCurrent(false);
@@ -554,7 +554,7 @@ function persistCurrent(blocked){
 function saveInvoice(final){
   if(!current) return;
   var existing = invoices.find(function(x){ return x.id === current.id; });
-  /* An accepted invoice is a fact already reported to the (simulated) FTA — later
+  /* An accepted invoice is a fact already reported to the (simulated) FTA - later
      failed attempts at the same number never downgrade or erase it. */
   if (existing && existing.status === "accepted" && final !== "accepted"){ current = null; return; }
   var rec = {
@@ -655,7 +655,7 @@ function clearErr(id){ clearErrById(id); }
 function tinMirror(){
   var t = snapshotValue("s_trn");
   document.getElementById("s_ea").value = t.length === 15 ? t.slice(0,10) : "";
-  document.getElementById("s_tin").textContent = t.length === 15 ? ("Derived from your TRN (first 10 digits): " + t.slice(0,10) + " — this becomes your e-invoice address.") : "";
+  document.getElementById("s_tin").textContent = t.length === 15 ? ("Derived from your TRN (first 10 digits): " + t.slice(0,10) + " - this becomes your e-invoice address.") : "";
 }
 function nowStamp(){
   /* Gulf Standard Time = UTC+4, no DST */
@@ -666,7 +666,7 @@ function nowStamp(){
 function renderRegister(){
   var body = document.getElementById("regBody");
   if(!invoices.length){
-    body.innerHTML = '<div class="note">No invoices yet. Create one on the first tab — try the compliant sample, then the rejection samples.</div>';
+    body.innerHTML = '<div class="note">No invoices yet. Create one on the first tab - try the compliant sample, then the rejection samples.</div>';
     return;
   }
   var rows = invoices.map(function(x){
@@ -674,7 +674,7 @@ function renderRegister(){
     var st = (["blocked","accepted","rejected"].indexOf(x.status) > -1) ? x.status : "draft";
     var cls = "s-" + st;
     var tech = x.mls ? ("Provider status: " + escapeHtml(x.mls.code) + " · " + escapeHtml(x.mls.exchange) + (x.mls.reason ? " · " + escapeHtml(x.mls.reason) : "")) : "";
-    var follow = (st === "accepted") ? '<div class="note">Ready for collections — balance due ' + escapeHtml(x.total) + " " + escapeHtml(cur) + " by " + escapeHtml(x.due) + ". Simulated.</div>" : (st === "blocked" ? '<div class="note">Blocked by the local check — fix the highlighted fields and check again.</div>' : '<div class="note">Rejected by the provider — fix the issue and check again.</div>');
+    var follow = (st === "accepted") ? '<div class="note">Ready for collections - balance due ' + escapeHtml(x.total) + " " + escapeHtml(cur) + " by " + escapeHtml(x.due) + ". Simulated.</div>" : (st === "blocked" ? '<div class="note">Blocked by the local check - fix the highlighted fields and check again.</div>' : '<div class="note">Rejected by the provider - fix the issue and check again.</div>');
     return "<tr><td><b>" + escapeHtml(x.id) + "</b><br><span class='note'>" + escapeHtml(x.ts) + "</span></td>" +
       "<td>" + escapeHtml(x.buyer) + "<br><span class='note'>TRN ..." + escapeHtml(String(x.buyerTrn || "").slice(-6)) + "</span></td>" +
       "<td>" + escapeHtml(x.total) + " " + escapeHtml(cur) + "<br><span class='note'>VAT " + escapeHtml(x.vat) + " " + escapeHtml(cur) + "</span></td>" +
