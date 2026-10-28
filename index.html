@@ -16,9 +16,9 @@
   header{background:#0c2b33;color:#fff;padding:14px 24px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
   header h1{font-size:17px;margin:0;font-weight:650}
   .tag{font-size:11px;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:3px 10px;letter-spacing:.4px}
-  .tag.sim{background:#7a2e0e;border-color:#a9c}.tag.sim{border-color:rgba(255,255,255,.5)}
+  .tag.sim{background:#7a2e0e;border-color:rgba(255,255,255,.5)}
   nav{display:flex;gap:6px;padding:10px 24px;background:#fff;border-bottom:1px solid var(--line)}
-  nav button{border:1px solid var(--line);background:#fff;padding:7px 14px;border-radius:8px;font-size:13.5px;cursor:pointer;color:var(--sub)}
+  nav button{border:1px solid var(--line);background:#fff;padding:9px 14px;border-radius:8px;font-size:13.5px;cursor:pointer;color:var(--sub)}
   nav button.on{background:var(--chipbg);border-color:#c7d2fe;color:var(--chip);font-weight:600}
   main{max-width:1080px;margin:0 auto;padding:18px 24px 60px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px}
@@ -35,27 +35,30 @@
   .err.show{display:block}
   .rows label{margin-top:4px}
   .lineRow{display:grid;grid-template-columns:2fr 2fr .7fr .9fr 1fr .9fr 1fr 34px;gap:8px;align-items:start;margin-bottom:8px}
-  .lineHead{font-size:10.5px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.4px;display:grid;grid-template-columns:2fr 2fr .7fr .9fr 1fr .9fr 1fr 34px;gap:8px;margin-bottom:4px}
+  .lineHead{font-size:10.5px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.4px;display:grid;grid-template-columns:2fr 2fr .7fr .9fr 1fr .9fr 1fr 34px;gap:8px;margin-bottom:4px}
   .lineNet{font-size:11.5px;color:var(--sub);padding-top:8px}
-  button.primary{background:var(--accent);border:none;color:#fff;padding:10px 18px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer}
+  button.primary{background:var(--accent);border:none;color:#fff;padding:14px 20px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer}
   button.primary:hover{background:var(--accent-dk)}
   button.ghost{background:#fff;border:1px solid var(--line);padding:8px 14px;border-radius:9px;font-size:13px;cursor:pointer;color:var(--ink)}
-  button.small{padding:6px 10px;font-size:12px}
+  button.small{padding:8px 12px;font-size:12px}
   .bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
   .totals{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:6px}
   .totals div{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
   .totals b{display:block;font-size:15px}
   .totals span{font-size:11px;color:var(--sub)}
   .status{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11.5px;font-weight:600}
-  .s-draft{background:#f1f5f9;color:#475569}.s-blocked{background:var(--badbg);color:var(--bad)}
-  .s-submitted{background:var(--warnbg);color:var(--warn)}.s-accepted{background:var(--okbg);color:var(--ok)}
+  .s-blocked{background:var(--badbg);color:var(--bad)}
+  .s-accepted{background:var(--okbg);color:var(--ok)}
   .s-rejected{background:#fee4e2;color:#b42318}
+  input[readonly]{background:#f1f5f9;color:var(--sub)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+  .rowerr{grid-column:1/-1}
   .callout{border-radius:10px;padding:12px 14px;font-size:13px;margin-bottom:12px}
   .callout.bad{background:var(--badbg);border:1px solid #fda29b;color:var(--bad)}
   .callout.ok{background:var(--okbg);border:1px solid #abefc6;color:var(--ok)}
   .callout.warn{background:var(--warnbg);border:1px solid #fedf89;color:var(--warn)}
   table{width:100%;border-collapse:collapse;font-size:13px}
-  th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#94a3b8;text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);text-align:left;padding:8px;border-bottom:1px solid var(--line)}
   td{padding:9px 8px;border-bottom:1px solid #f1f5f9;vertical-align:top}
   .msg{font-size:12px;font-family:SFMono-Regular,Menlo,monospace;background:#0c2b33;color:#d1f5ff;border-radius:10px;padding:12px 14px;white-space:pre-wrap;word-break:break-word}
   .pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--chipbg);color:var(--chip);letter-spacing:.3px}
@@ -67,30 +70,38 @@
   .flow .step{background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px}
   .flow .arw{color:#94a3b8}
   @media(max-width:860px){.grid{grid-template-columns:repeat(2,1fr)}.grid .span4{grid-column:span 2}.lineRow,.lineHead{grid-template-columns:1.6fr 1fr .6fr .8fr .9fr .9fr 1fr 30px}}
+  @media(max-width:600px){
+    .lineHead{display:none}
+    .lineRow{grid-template-columns:1fr 1fr}
+    .lineRow > div:first-child,.lineRow > div:nth-child(2){grid-column:1/-1}
+    .totals{grid-template-columns:1fr 1fr}
+  }
 </style>
 </head>
 <body>
 <header>
   <h1>Compliance-Locked Invoicing · UAE</h1>
-  <span class="tag" style="background:#7a2e0e">SIMULATED ASP · CONCEPT PROTOTYPE</span>
+  <span class="tag" style="background:#7a2e0e">SIMULATED · DEMO ONLY</span>
   <span class="tag">Volopay AR extension thesis</span>
 </header>
 
-<nav>
-  <button id="tab-build" onclick="show('build')" class="on">1 · Create & submit invoice</button>
-  <button id="tab-list" onclick="show('list')">2 · Invoice register & AR handoff</button>
-  <button id="tab-arch" onclick="show('arch')">3 · How this maps to production</button>
+<nav aria-label="Prototype views">
+  <div role="tablist">
+    <button type="button" id="tab-build" role="tab" aria-selected="true" aria-controls="view-build" onclick="show('build')" class="on">1 · Create & submit invoice</button>
+    <button type="button" id="tab-list" role="tab" aria-selected="false" aria-controls="view-list" onclick="show('list')">2 · Invoice register & AR handoff</button>
+    <button type="button" id="tab-arch" role="tab" aria-selected="false" aria-controls="view-arch" onclick="show('arch')">3 · How this maps to production</button>
+  </div>
 </nav>
 
 <main>
-<section id="view-build">
+<section id="view-build" role="tabpanel" aria-label="Create and submit invoice">
   <div class="card">
     <h2>Finance-side invoice builder</h2>
-    <div class="sub">Every mandatory field below comes from the official <i>UAE Electronic Invoice Mandatory Fields</i> (Ministry of Finance, v1.1, 28 Oct 2026). Before an invoice historically went "out the door," this layer answers the question the ASP asks: <b>will this invoice be accepted?</b></div>
+    <div class="sub">Every mandatory field below comes from the official <i>UAE Electronic Invoice Mandatory Fields</i> (Ministry of Finance, v1.1, 28 Oct 2026). Before an invoice goes out the door, this layer answers the question the Accredited Service Provider (ASP) — the mandatory middleman between sellers and the UAE tax authority — asks: <b>will this invoice be accepted?</b></div>
     <div class="bar" style="margin:0 0 12px">
-      <button class="ghost small" onclick="loadSample('clean')">Load sample · compliant invoice</button>
-      <button class="ghost small" onclick="loadSample('badTrn')">Load sample · buyer TRN invalid (rejection case)</button>
-      <button class="ghost small" onclick="loadSample('vatDrift')">Load sample · VAT breakdown mismatch (rejection case)</button>
+      <button type="button" class="ghost small" onclick="loadSample('clean')">Load sample · compliant invoice</button>
+      <button type="button" class="ghost small" onclick="loadSample('badTrn')">Load sample · buyer TRN invalid (rejection case)</button>
+      <button type="button" class="ghost small" onclick="loadSample('vatDrift')">Load sample · VAT breakdown mismatch (rejection case)</button>
     </div>
 
     <form id="invForm" onsubmit="return false" autocomplete="off">
@@ -105,8 +116,8 @@
             <select id="f_biz" onchange="clearErr('f_biz')"><option value="">— select —</option><option value="A1">A1 · Standard B2B supply</option><option value="B2">B2 · Credit note reference</option></select></div>
           <div><label for="f_pay">Payment means type code <span class="pill">mf 9</span></label>
             <select id="f_pay" onchange="clearErr('f_pay')"><option value="">— select —</option><option value="42">42 · Bank transfer</option><option value="10">10 · Cash</option><option value="20">20 · Cheque</option><option value="30">30 · Card</option></select></div>
-          <div class="span2"><label>Transaction type flags <span class="pill">mf 5</span> — free-trade-zone · deemed-supply · margin-scheme · summary · continuous · disclosed-agent · e-commerce · exports</label>
-            <input id="f_flags" readonly value="00000000">
+          <div class="span2"><label for="f_flags">Transaction type flags <span class="pill">mf 5</span> — free-trade-zone · deemed-supply · margin-scheme · summary · continuous · disclosed-agent · e-commerce · exports</label>
+            <input id="f_flags" readonly tabindex="-1" value="00000000">
           </div>
         </div>
       </fieldset>
@@ -122,9 +133,9 @@
           <div><label for="s_city">Seller city <span class="pill">mf 18</span></label><input id="s_city" oninput="clearErr('s_city')"></div>
           <div><label for="s_sub">Seller country subdivision (Emirate) <span class="pill">mf 19</span></label>
             <select id="s_sub" onchange="clearErr('s_sub')"><option value="">— select —</option><option value="AE-DU">Dubai</option><option value="AE-AZ">Abu Dhabi</option><option value="AE-SH">Sharjah</option><option value="AE-RK">Ras al-Khaimah</option></select></div>
-          <div><label>Seller country code <span class="pill">mf 20</span></label><input value="AE" readonly></div>
-          <div><label>Seller electronic identifier <span class="pill">mf 12</span></label><input value="0235" readonly></div>
-          <div class="span2"><label>Seller electronic address (TIN) <span class="pill">mf 11</span></label><input id="s_ea" readonly></div>
+          <div><label for="s_cc">Seller country code <span class="pill">mf 20</span></label><input id="s_cc" value="AE" readonly tabindex="-1"></div>
+          <div><label for="s_eid">Seller electronic identifier <span class="pill">mf 12</span></label><input id="s_eid" value="0235" readonly tabindex="-1"></div>
+          <div class="span2"><label for="s_ea">Seller electronic address (TIN) <span class="pill">mf 11</span></label><input id="s_ea" readonly tabindex="-1"></div>
         </div>
       </fieldset>
 
@@ -137,13 +148,14 @@
             </datalist>
           </div>
           <div><label for="b_trn">Buyer TRN · 15 digits <span class="pill">mf 24</span></label><input id="b_trn" maxlength="15" oninput="clearErr('b_trn')"><div class="err" id="e_b_trn"></div></div>
-          <div><label for="b_ea">Buyer electronic address (ASP endpoint key) <span class="pill">mf 22</span></label><input id="b_ea" oninput="clearErr('b_ea')"><div class="err" id="e_b_ea"></div></div>
+          <div><label for="b_ea">Buyer electronic address (usually their TRN) <span class="pill">mf 22</span></label><input id="b_ea" oninput="clearErr('b_ea')"><div class="err" id="e_b_ea"></div></div>
           <div class="span2"><label for="b_addr">Buyer address line 1 <span class="pill">mf 26</span></label><input id="b_addr" oninput="clearErr('b_addr')"></div>
           <div><label for="b_city">Buyer city <span class="pill">mf 27</span></label><input id="b_city" oninput="clearErr('b_city')"></div>
           <div><label for="b_sub">Buyer country subdivision <span class="pill">mf 28</span></label>
             <select id="b_sub" onchange="clearErr('b_sub')"><option value="">— select —</option><option value="AE-DU">Dubai</option><option value="AE-AZ">Abu Dhabi</option><option value="AE-SH">Sharjah</option><option value="AE-RK">Ras al-Khaimah</option></select></div>
           <div><label for="b_cc">Buyer country code <span class="pill">mf 29</span></label>
-            <select id="b_cc" onchange="clearErr('b_cc')"><option value="AE">AE</option><option value="SA">SA</option><option value="IN">IN</option><option value="SG">SG</option></select></div>
+            <select id="b_cc" onchange="clearErr('b_cc')"><option value="AE">AE</option></select>
+            <div class="note">Demo scope: UAE domestic B2B. Cross-border buyer profiles are out of scope.</div></div>
         </div>
       </fieldset>
 
@@ -157,21 +169,21 @@
         <div><span>Sum of line net amounts <span class="pill">mf 30</span></span><b id="t_net">0.00</b></div>
         <div><span>Total without tax <span class="pill">mf 31</span></span><b id="t_excl">0.00</b></div>
         <div><span>VAT total <span class="pill">mf 32</span></span><b id="t_vat">0.00</b>
-          <div style="margin-top:4px"><input id="f_vat_declared" type="number" step="any" aria-label="Declared VAT total (mandatory field 32)" style="padding:4px 6px;font-size:12px"> <button type="button" class="ghost small" onclick="resetDeclaredVat()" style="margin-top:4px">Use computed total</button><div class="note">Declared VAT total — the issuer's own figure for mandatory field 32. The simulated ASP re-checks it against the lines.</div></div></div>
+          <div style="margin-top:4px"><input id="f_vat_declared" type="number" step="any" aria-label="Declared VAT total (mandatory field 32)" oninput="this.dataset.manual='1'" style="padding:4px 6px;font-size:12px"> <button type="button" class="ghost small" onclick="resetDeclaredVat()" style="margin-top:4px">Use computed total</button><div class="note">Declared VAT total — the issuer's own figure for mandatory field 32. The simulated ASP re-checks it against the lines.</div></div></div>
         <div><span>Amount due (incl. tax) <span class="pill">mf 33 · 34</span></span><b id="t_incl">0.00</b></div>
       </div>
 
       <div class="bar">
-        <button class="primary" onclick="submitInvoice()">Pre-validate & submit to simulated ASP</button>
+        <button type="button" class="primary" onclick="submitInvoice()">Pre-validate & submit to simulated ASP</button>
         <span class="note">Submission is fully simulated. No real ASP, IRP or tax authority is contacted.</span>
       </div>
-      <div id="pre" style="margin-top:12px"></div>
-      <div id="aspResponse" style="margin-top:12px"></div>
+      <div id="pre" role="alert" style="margin-top:12px"></div>
+      <div id="aspResponse" role="status" style="margin-top:12px"></div>
     </form>
   </div>
 </section>
 
-<section id="view-list" style="display:none">
+<section id="view-list" role="tabpanel" aria-label="Invoice register" style="display:none">
   <div class="card">
     <h2>Invoice register · persisted in this browser</h2>
     <div class="sub">Statuses follow the model the MOF programme describes: the seller-side ASP validates and forwards, the buyer-side ASP responds with a Message Level Status (MLS), and Tax Data Documents are reported to the FTA. All of it is simulated here.</div>
@@ -192,7 +204,7 @@
   </div>
 </section>
 
-<section id="view-arch" style="display:none">
+<section id="view-arch" role="tabpanel" aria-label="Production mapping" style="display:none">
   <div class="card">
     <h2>Implemented here (prototype)</h2>
     <div class="flow">
@@ -223,15 +235,18 @@
 var LS = "volopay_proto_invoices_v1";
 var invoices = load() || [];
 var seq = 1000 + (new Date().getFullYear() % 100);
+invoices.forEach(function(x){ var m = /^AUTO-(\d+)$/.exec(x.id || ""); if(m){ seq = Math.max(seq, parseInt(m[1], 10) + 1); } });
 
-function save(){ try{ localStorage.setItem(LS, JSON.stringify(invoices)); }catch(e){} }
+function save(){ try{ localStorage.setItem(LS, JSON.stringify(invoices)); }catch(e){ console.warn("Register save failed:", e); } }
 function load(){ try{ return JSON.parse(localStorage.getItem(LS)); }catch(e){ return null; } }
 
 /* ---------- navigation ---------- */
 function show(v){
   ["build","list","arch"].forEach(function(t){
     document.getElementById("view-"+t).style.display = (t===v) ? "" : "none";
-    document.getElementById("tab-"+t).className = (t===v) ? "on" : "";
+    var tb = document.getElementById("tab-"+t);
+    tb.className = (t===v) ? "on" : "";
+    tb.setAttribute("aria-selected", (t===v) ? "true" : "false");
   });
   if(v==="list") renderRegister();
 }
@@ -251,7 +266,7 @@ var SAMPLES = {
     ]
   },
   badTrn: {
-    lead:"This sample contains a buyer TRN with 12 digits instead of 15. Pre-validation blocks it before the simulated ASP ever sees it — read the rejection panel.",
+    lead:"This sample ships with two deliberate defects: the buyer TRN has 12 digits instead of 15, and the buyer electronic address is empty. Pre-validation blocks both before the simulated ASP ever sees it — read the rejection panel.",
     f_num:"INV-2026-0149", f_issued:"2026-10-28", f_due:"2026-11-30", f_cur:"AED",
     f_biz:"A1", f_pay:"42",
     s_name:"Gulf Precision Facilities LLC", s_trn:"100123456700001", s_regid:"DED-887531", s_regidt:"TL",
@@ -291,6 +306,8 @@ function loadSample(k){
   if(document.querySelectorAll("#lines .lineRow").length === 0){ addLine(); }
   document.getElementById("pre").innerHTML = s.lead ? '<div class="callout warn"><b>Sample loaded:</b> ' + s.lead + "</div>" : "";
   document.getElementById("aspResponse").innerHTML = "";
+  document.querySelectorAll("#invForm .bad").forEach(function(el){ el.classList.remove("bad"); el.removeAttribute("aria-invalid"); });
+  document.querySelectorAll("#invForm .err").forEach(function(el){ el.textContent = ""; el.classList.remove("show"); });
   recalc();
   document.getElementById("f_vat_declared").value = (s.declaredVat !== undefined) ? s.declaredVat : document.getElementById("t_vat").textContent;
   document.getElementById("f_vat_declared").dataset.manual = (s.declaredVat !== undefined) ? "1" : "0";
@@ -307,20 +324,25 @@ function addLine(){
   var row = document.createElement("div");
   row.className = "lineRow";
   row.innerHTML =
-    '<div><input data-f="n" placeholder="Item name" oninput="recalc()"></div>' +
-    '<div><input data-f="d" placeholder="Item description" oninput="recalc()"></div>' +
-    '<div><input data-f="q" type="number" min="0" step="any" value="1" oninput="recalc()"></div>' +
-    '<div><select data-f="u"><option value="EA">EA</option><option value="HUR">HUR</option><option value="DAY">DAY</option><option value="KGM">KGM</option><option value="MTR">MTR</option><option value="LTR">LTR</option></select></div>' +
-    '<div><input data-f="p" type="number" min="0" step="any" placeholder="Net price" oninput="recalc()"></div>' +
-    '<div><select data-f="c" onchange="onCat(this);recalc()"><option value="S" data-rate="5">S · standard</option><option value="Z" data-rate="0">Z · zero-rated</option><option value="E" data-rate="0">E · exempt</option></select></div>' +
-    '<div><input data-f="r" type="number" min="0" step="any" value="5" onchange="compatRate(this);recalc()" oninput="recalc()"></div>' +
-    '<div><button type="button" aria-label="Remove line" class="ghost small" onclick="delLine(this)">×</button></div>';
+    '<div><input data-f="n" aria-label="Item name" placeholder="Item name" oninput="recalc(); clearBad(this)"></div>' +
+    '<div><input data-f="d" aria-label="Item description" placeholder="Item description" oninput="recalc(); clearBad(this)"></div>' +
+    '<div><input data-f="q" type="number" min="0" step="any" value="1" aria-label="Quantity" oninput="recalc(); clearBad(this)"></div>' +
+    '<div><select data-f="u" aria-label="Unit of measure"><option value="EA">EA</option><option value="HUR">HUR</option><option value="DAY">DAY</option><option value="KGM">KGM</option><option value="MTR">MTR</option><option value="LTR">LTR</option></select></div>' +
+    '<div><input data-f="p" type="number" min="0" step="any" placeholder="Net price" aria-label="Unit net price" oninput="recalc(); clearBad(this)"></div>' +
+    '<div><select data-f="c" aria-label="VAT category" onchange="onCat(this);recalc()"><option value="S" data-rate="5">S · standard</option><option value="Z" data-rate="0">Z · zero-rated</option><option value="E" data-rate="0">E · exempt</option></select></div>' +
+    '<div><input data-f="r" type="number" min="0" step="any" value="5" aria-label="VAT rate percent" onchange="liveRate(this)" oninput="recalc(); clearBad(this)"></div>' +
+    '<div><button type="button" aria-label="Remove line" class="ghost small" onclick="delLine(this)">×</button></div>' +
+    '<div class="err rowerr"></div>';
   block.appendChild(row);
   recalc();
 }
 function delLine(btn){
   var rows = document.querySelectorAll("#lines .lineRow");
-  if(rows.length > 1){ btn.closest(".lineRow").remove(); } else { clearAllLineFields(); }
+  if(rows.length > 1){
+    btn.closest(".lineRow").remove();
+    var first = document.querySelector("#lines .lineRow input");
+    if(first){ try{ first.focus(); }catch(e){} }
+  } else { clearAllLineFields(); }
   recalc();
 }
 function clearAllLineFields(){
@@ -336,19 +358,28 @@ function clearAllLineFields(){
 function onCat(sel){
   var rate = sel.querySelector("option:checked").dataset.rate;
   var row = sel.closest(".lineRow");
-  row.querySelector('[data-f="r"]').value = rate;
+  var rIn = row.querySelector('[data-f="r"]');
+  rIn.value = rate;
+  clearBad(rIn);
 }
-function compatRate(inp){
+function rateMismatch(cat, rate){
+  if(cat === "S" && rate !== 5) return "Standard-rated lines must apply the UAE standard VAT rate of 5%.";
+  if((cat === "Z" || cat === "E") && rate !== 0) return "Zero-rated and exempt lines must show a 0% rate.";
+  return null;
+}
+function liveRate(inp){
   var row = inp.closest(".lineRow");
-  var cat = row.querySelector('[data-f="c"]').value;
-  var rate = parseFloat(inp.value || "0");
-  if(cat === "S" && rate !== 5){ flashFieldBad(inp, "Standard-rated lines must apply the UAE standard VAT rate of 5%."); }
-  if((cat === "Z" || cat === "E") && rate !== 0){ flashFieldBad(inp, "Zero-rated and exempt lines must show a 0% rate."); }
+  var mm = rateMismatch(row.querySelector('[data-f="c"]').value, num(inp.value));
+  var re = row.querySelector(".rowerr");
+  if(mm){ inp.classList.add("bad"); if(re){ re.textContent = mm; re.classList.add("show"); } }
+  else { clearBad(inp); }
 }
-function flashFieldBad(el, msg){
-  el.classList.add("bad"); flashMsg = msg; setTimeout(function(){ flashMsg = ""; }, 1);
+function clearBad(el){
+  el.classList.remove("bad"); el.removeAttribute("aria-invalid");
+  var row = el.closest(".lineRow");
+  var re = row ? row.querySelector(".rowerr") : null;
+  if(re){ re.textContent = ""; re.classList.remove("show"); }
 }
-var flashMsg = "";
 
 /* ---------- arithmetic ---------- */
 function num(v){ var n = parseFloat(v); return isNaN(n) ? 0 : n; }
@@ -360,9 +391,7 @@ function lineData(){
     out.push({
       n: g("n").value.trim(), d: g("d").value.trim(), q: num(g("q").value), u: g("u").value,
       p: num(g("p").value), c: g("c").value, r: num(g("r").value),
-      net: num(g("p").value) * num(g("q").value),
-      dv: num(g("p").value) * num(g("q").value) * num(g("r").value) / 100,
-      el: g("n")
+      net: num(g("p").value) * num(g("q").value)
     });
   });
   return out;
@@ -381,46 +410,49 @@ function recalc(){
 /* ---------- validation: cloned from MOF mandatory-fields v1.1, 28 Oct 2026 ---------- */
 function validate(){
   var errs = [];
-  var add = function(field, msg, fix){ errs.push({field: field, msg: msg, fix: fix}); };
+  var add = function(target, name, msg, fix){ errs.push({target: target, name: name, msg: msg, fix: fix}); };
   var v = function(id){ return (document.getElementById(id).value || "").trim(); };
   var L = lineData();
 
-  if(!v("f_num")) add("Invoice number", "Mandatory field 1: a unique invoice number is required.", "Enter your invoice reference, e.g. INV-2026-0151.");
-  if(!v("f_issued")) add("Invoice date", "Mandatory field 2: the issue date is required.", "Pick the issue date.");
-  if(!v("f_due")) add("Payment due date", "Mandatory field 6: the payment due date is required.", "Set the contractual due date.");
-  if(v("f_issued") && v("f_due") && v("f_due") < v("f_issued")) add("Payment due date", "The due date precedes the issue date — your contract terms were probably mis-keyed.", "Set the due date on or after the invoice date.");
-  if(!v("f_biz")) add("Business process type", "Mandatory field 7: an Electronic-Invoicing-specific process code is required.", "Select A1 for a standard B2B supply.");
-  if(!v("f_pay")) add("Payment means type code", "Mandatory field 9: how payment is expected must be declared.", "Pick the settlement route.");
+  if(!v("f_num")) add("f_num", "Invoice number", "Mandatory field 1: an invoice number is required (re-submitting the same number updates that invoice's status).", "Enter your invoice reference, e.g. INV-2026-0151.");
+  if(!v("f_issued")) add("f_issued", "Invoice date", "Mandatory field 2: the issue date is required.", "Pick the issue date.");
+  if(!v("f_due")) add("f_due", "Payment due date", "Mandatory field 6: the payment due date is required.", "Set the contractual due date.");
+  if(v("f_issued") && v("f_due") && v("f_due") < v("f_issued")) add("f_due", "Payment due date", "The due date precedes the issue date — your contract terms were probably mis-keyed.", "Set the due date on or after the invoice date.");
+  if(!v("f_biz")) add("f_biz", "Business process type", "Mandatory field 7: an Electronic-Invoicing-specific process code is required.", "Select A1 for a standard B2B supply.");
+  if(!v("f_pay")) add("f_pay", "Payment means type code", "Mandatory field 9: how payment is expected must be declared.", "Pick the settlement route.");
 
-  if(!v("s_name")) add("Seller name", "Mandatory field 10: the registered seller name is required.", "Use the legal entity name.");
-  if(!/^\d{15}$/.test(v("s_trn"))) add("Seller TRN", "Mandatory field 15: the seller TRN must be the 15-digit FTA Tax Registration Number.", "Enter all 15 digits. The TIN (first 10) is derived automatically.");
-  if(!v("s_regid")) add("Seller legal registration ID", "Mandatory field 13: an official registrar identifier is required.", "Enter the trade licence number.");
-  if(!v("s_regidt")) add("Registration ID type", "Mandatory field 14: the registration identifier type must be TL, EID, PAS or CD.", "Select TL for a trade licence.");
-  if(!v("s_addr")) add("Seller address line 1", "Mandatory field 17: the main address line is required.", "Add the street address.");
-  if(!v("s_city")) add("Seller city", "Mandatory field 18: the city is required.", "Add the city.");
-  if(!v("s_sub")) add("Seller country subdivision", "Mandatory field 19: the Emirate is required.", "Select the Emirate.");
+  if(!v("s_name")) add("s_name", "Seller name", "Mandatory field 10: the registered seller name is required.", "Use the legal entity name.");
+  if(!/^\d{15}$/.test(v("s_trn"))) add("s_trn", "Seller TRN", "Mandatory field 15: the seller TRN must be the 15-digit FTA Tax Registration Number.", "Enter all 15 digits. The TIN (first 10) is derived automatically.");
+  if(!v("s_regid")) add("s_regid", "Seller legal registration ID", "Mandatory field 13: an official registrar identifier is required.", "Enter the trade licence number.");
+  if(!v("s_regidt")) add("s_regidt", "Registration ID type", "Mandatory field 14: the registration identifier type must be TL, EID, PAS or CD.", "Select TL for a trade licence.");
+  if(!v("s_addr")) add("s_addr", "Seller address line 1", "Mandatory field 17: the main address line is required.", "Add the street address.");
+  if(!v("s_city")) add("s_city", "Seller city", "Mandatory field 18: the city is required.", "Add the city.");
+  if(!v("s_sub")) add("s_sub", "Seller country subdivision", "Mandatory field 19: the Emirate is required.", "Select the Emirate.");
 
-  if(!v("b_name")) add("Buyer name", "Mandatory field 21: the buyer name is required.", "Enter the customer's legal entity name.");
-  if(!/^\d{15}$/.test(v("b_trn"))) add("Buyer TRN", "Mandatory field 24: the buyer TRN must be a full 15-digit FTA registration.", "Enter all 15 digits — B2B e-invoicing requires the buyer's registration.");
-  if(!v("b_ea")) add("Buyer electronic address", "Mandatory field 22: the buyer endpoint (where the buyer's ASP delivers the invoice) is missing.", "Enter the buyer's registered electronic address (usually their TIN).");
-  if(!v("b_addr")) add("Buyer address line 1", "Mandatory field 26: the buyer address line is required.", "Add the buyer's street address.");
-  if(!v("b_city")) add("Buyer city", "Mandatory field 27: the buyer city is required.", "Add the buyer's city.");
-  if(!v("b_sub")) add("Buyer country subdivision", "Mandatory field 28: the buyer's Emirate/subdivision is required.", "Select the buyer's subdivision.");
+  if(!v("b_name")) add("b_name", "Buyer name", "Mandatory field 21: the buyer name is required.", "Enter the customer's legal entity name.");
+  if(!/^\d{15}$/.test(v("b_trn"))) add("b_trn", "Buyer TRN", "Mandatory field 24: the buyer TRN must be a full 15-digit FTA registration.", "Enter all 15 digits — B2B e-invoicing requires the buyer's registration.");
+  if(!v("b_ea")) add("b_ea", "Buyer electronic address", "Mandatory field 22: the buyer endpoint (where the buyer's ASP delivers the invoice) is missing.", "Enter the buyer's registered electronic address (usually their TRN).");
+  if(!v("b_addr")) add("b_addr", "Buyer address line 1", "Mandatory field 26: the buyer address line is required.", "Add the buyer's street address.");
+  if(!v("b_city")) add("b_city", "Buyer city", "Mandatory field 27: the buyer city is required.", "Add the buyer's city.");
+  if(!v("b_sub")) add("b_sub", "Buyer country subdivision", "Mandatory field 28: the buyer's Emirate is required.", "Select the buyer's Emirate.");
 
-  if(L.length === 0) add("Invoice lines", "At least one invoice line is required.", "Add a line item.");
+  if(L.length === 0) add(null, "Invoice lines", "At least one invoice line is required.", "Add a line item.");
+  var lineRows = document.querySelectorAll("#lines .lineRow");
   L.forEach(function(x, i){
-    if(!x.n) add("Line " + (i+1) + " item name", "Mandatory field 50: every line needs an item name.", "Name the item or service.");
-    if(x.q <= 0) add("Line " + (i+1) + " quantity", "Mandatory field 40: the invoiced quantity must be positive.", "Enter a quantity.");
-    if(x.p <= 0) add("Line " + (i+1) + " net price", "Mandatory field 43: the item net price is required.", "Enter the unit price before tax.");
+    var row = lineRows[i];
+    var g = function(f){ return row ? row.querySelector('[data-f="'+f+'"]') : null; };
+    if(!x.n) add(g("n"), "Line " + (i+1) + " item name", "Mandatory field 50: every line needs an item name.", "Name the item or service.");
+    if(x.q <= 0) add(g("q"), "Line " + (i+1) + " quantity", "Mandatory field 40: the invoiced quantity must be positive.", "Enter a quantity.");
+    if(x.p <= 0) add(g("p"), "Line " + (i+1) + " net price", "Mandatory field 43: the item net price is required.", "Enter the unit price before tax.");
+    var mm = rateMismatch(x.c, x.r);
+    if(mm) add(g("r"), "Line " + (i+1) + " VAT rate", mm, "Match the rate to the line's VAT category.");
   });
 
-  var totNet = L.reduce(function(a, x){ return a + x.net; }, 0);
   var totVat = L.reduce(function(a, x){ return a + ((x.c === "S") ? x.net * x.r / 100 : 0); }, 0);
-  var tFields = ["t_net","t_excl","t_vat","t_incl"].map(function(id){ return num(document.getElementById(id).textContent.replace(/,/g,"")); });
   if(!/^AED$/.test(v("f_cur"))){
-    add("Invoice currency", "Mandatory field 4 + rule 48–49: VAT line amounts must be expressed in AED. This prototype accepts AED for the simulated floor test.", "Set the currency to AED.");
+    add("f_cur", "Invoice currency", "Mandatory field 4 + rule 48–49: VAT amounts must be expressed in AED — this demo models UAE domestic invoicing in AED.", "Set the currency to AED.");
   }
-  return { errs: errs, totNet: totNet, totVat: totVat, tFields: tFields };
+  return { errs: errs, totVat: totVat };
 }
 
 /* ---------- submission (simulated ASP) ---------- */
@@ -428,10 +460,17 @@ var current = null;
 function submitInvoice(){
   recalc();
   var res = validate();
+  current = {
+    id: snapshotValue("f_num") || ("AUTO-" + (seq++)),
+    issued: snapshotValue("f_issued"), due: snapshotValue("f_due"),
+    buyer: snapshotValue("b_name"), buyerTrn: snapshotValue("b_trn"),
+    total: document.getElementById("t_incl").textContent,
+    vat: document.getElementById("t_vat").textContent,
+    status: "none", ts: nowStamp()
+  };
   if(res.errs.length){
     renderErrors(res);
-    setStatus("Blocked", "Validation failed — nothing was sent to the simulated ASP.");
-    persistCurrent("blocked");
+    persistCurrent(true);
     return;
   }
   /* ASP-level business-rule recheck (simulated): declared VAT vs line VAT */
@@ -443,32 +482,22 @@ function submitInvoice(){
     acceptance.rejectCode = "BR-VAT-DRIFT";
     acceptance.rejectReason = "Declared VAT total (" + m2(declaredVat) + " AED, mandatory field 32) does not equal the sum of line VAT (" + m2(res.totVat) + " AED).";
   }
-  var stamp = nowStamp();
-  current = {
-    id: snapshotValue("f_num") || ("AUTO-" + (seq++)),
-    issued: snapshotValue("f_issued"), due: snapshotValue("f_due"),
-    buyer: snapshotValue("b_name"), buyerTrn: snapshotValue("b_trn"),
-    total: document.getElementById("t_incl").textContent,
-    vat: document.getElementById("t_vat").textContent,
-    status: "none", ts: stamp
-  };
   document.getElementById("pre").innerHTML = '<div class="callout ok"><b>Pre-validation passed.</b> All checked mandatory fields (MOF list v1.1) are present and internally consistent; the seller electronic address fields (mf 11–12) are derived from the seller TRN.'
-    + '<br><span class="note">Next step in production: the request goes to the accredited service provider. Here it is simulated deterministically.</span></div>';
-  var payload = buildPayload(L, res);
-  renderAsp(payload, acceptance, res);
-  persistCurrent("notified");
-  if(acceptance.mlsAccept){
-    setStatus("Accepted", "Simulated ASP accepted · MLS positive · TDD reported to (simulated) FTA.");
-  }
+    + '<br><span class="note">Pre-validation checks structure and mandatory fields; the (simulated) ASP then re-checks business rules — a pass here does not guarantee acceptance. In production the request would now go to the accredited service provider; here it is simulated deterministically.</span></div>';
+  var payload = buildPayload(L);
+  renderAsp(payload, acceptance);
+  persistCurrent(false);
   show("build");
-  try{ document.getElementById("aspResponse").scrollIntoView({behavior:"smooth", block:"nearest"}); }catch(e){}
+  if(!acceptance.mlsAccept && acceptance.rejectCode === "BR-VAT-DRIFT"){
+    try{ document.getElementById("f_vat_declared").scrollIntoView({behavior:"smooth", block:"center"}); }catch(e){}
+  } else {
+    try{ document.getElementById("aspResponse").scrollIntoView({behavior:"smooth", block:"nearest"}); }catch(e){}
+  }
 }
 function snapshotValue(id){ var el = document.getElementById(id); return el ? el.value.trim() : ""; }
-function persistCurrent(k){
+function persistCurrent(blocked){
   if(!current) return;
-  var status = (k === "blocked") ? "blocked" : (((document.getElementById("aspResponse").innerHTML || "").indexOf("ACCEPTED") > -1) ? "accepted" : "rejected");
-  status = (k === "blocked") ? "blocked" : status;
-  saveInvoice(status);
+  saveInvoice(blocked ? "blocked" : (current.status || "rejected"));
 }
 function saveInvoice(final){
   if(!current) return;
@@ -477,17 +506,16 @@ function saveInvoice(final){
     id: current.id, issued: current.issued, due: current.due,
     buyer: current.buyer, buyerTrn: current.buyerTrn,
     total: current.total, vat: current.vat,
-    status: (typeof final === "string" && final !== "notified" && final !== "blocked") ? final : (existing ? existing.status : "draft"),
-    mls: current.mls || (existing ? existing.mls : null),
+    status: final || (existing ? existing.status : "draft"),
+    mls: (final === "blocked") ? null : (current.mls || (existing ? existing.mls : null)),
     ts: current.ts || (existing ? existing.ts : nowStamp())
   };
-  if (final === "blocked"){ rec.status = "blocked"; rec.mls = null; }
   if (existing){ Object.assign(existing, rec); }
   else { invoices.unshift(rec); }
   save();
   current = null;
 }
-function buildPayload(L, res){
+function buildPayload(L){
   var doc = {
     specification: "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 (PINT-AE profile), MOF UAE",
     customization: "PINT AE · V1.1 mandatory fields",
@@ -513,32 +541,49 @@ function buildPayload(L, res){
   };
   return JSON.stringify(doc, null, 2);
 }
-function renderAsp(payload, acceptance, res){
+function renderAsp(payload, acceptance){
   var mls = { exchange: acceptance.mlsAccept ? "ACCEPTED" : "REJECTED", code: acceptance.mlsAccept ? "ML-1 OK" : (acceptance.rejectCode || "ML-1 ERR") };
   var tdd = acceptance.mlsAccept ? { reported: true, status: "TDD accepted · reported to (simulated) FTA corner 5" } : { reported: false, status: "not reported (negative MLS)" };
   var head = acceptance.mlsAccept
     ? '<div class="callout ok"><b>Simulated ASP response · ' + mls.code + ' · ' + mls.exchange + '</b><br><span class="note">' + tdd.status + '. The invoice would now enter Volopay AR with a collectible balance and prepared follow-up. <b>All of this is simulated.</b></span></div>'
-    : '<div class="callout bad"><b>Simulated ASP response · ' + mls.code + ' · ' + mls.exchange + '</b><br><span class="note">' + acceptance.rejectReason + ' Fix the flagged issue here, then resubmit. <b>All of this is simulated.</b></span></div>';
+    : '<div class="callout bad"><b>Simulated ASP response · ' + mls.code + ' · ' + mls.exchange + '</b><br><span class="note">' + acceptance.rejectReason + (acceptance.rejectCode === "BR-VAT-DRIFT" ? ' The declared-VAT field in the totals is highlighted — correct it or press "Use computed total", then resubmit.' : ' Fix the flagged issue, then resubmit.') + ' <b>All of this is simulated.</b></span></div>';
   document.getElementById("aspResponse").innerHTML = head +
     '<details open><summary style="cursor:pointer;font-size:12px;color:var(--sub);margin:8px 0">Simulated PINT-AE payload sent to the (simulated) accredited service provider</summary>' +
-    '<div class="msg">' + payload + "</div></details>";
-  current = current || {};
+    '<div class="msg">' + escapeHtml(payload) + "</div></details>";
   current.mls = { exchange: mls.exchange, code: mls.code, reason: acceptance.rejectReason || null };
   current.status = acceptance.mlsAccept ? "accepted" : "rejected";
+  if(!acceptance.mlsAccept && acceptance.rejectCode === "BR-VAT-DRIFT"){
+    var dv = document.getElementById("f_vat_declared");
+    dv.classList.add("bad");
+    dv.setAttribute("aria-invalid", "true");
+  }
 }
 function renderErrors(res){
   var rows = res.errs.map(function(e){
-    return "<li><b>" + e.field + ":</b> " + e.msg + " <span class='note'>→ " + e.fix + "</span></li>";
+    return "<li><b>" + e.name + ":</b> " + e.msg + " <span class='note'>→ " + e.fix + "</span></li>";
   }).join("");
   document.getElementById("pre").innerHTML =
     '<div class="callout bad"><b>Pre-validation failed · ' + res.errs.length + ' issue(s)</b>' +
     '<ul style="margin:8px 0 0 18px;padding:0;text-align:left">' + rows + "</ul>" +
-    "<div class='note' style='margin-top:8px'>This mirrors the checks an accredited service provider performs at intake. Fix each field and resubmit — nothing was sent.</div></div>";
+    "<div class='note' style='margin-top:8px'>This mirrors the checks an accredited service provider performs at intake. The flagged fields are highlighted below — fix each and resubmit; nothing was sent.</div></div>";
   document.getElementById("aspResponse").innerHTML = "";
+  var first = null;
+  res.errs.forEach(function(e){
+    var el = (typeof e.target === "string") ? document.getElementById(e.target) : e.target;
+    if(!el) return;
+    el.classList.add("bad");
+    el.setAttribute("aria-invalid", "true");
+    var ed = el.id ? document.getElementById("e_" + el.id) : null;
+    if(ed){ ed.textContent = e.msg; ed.classList.add("show"); el.setAttribute("aria-describedby", "e_" + el.id); }
+    else {
+      var row = el.closest(".lineRow");
+      var re = row ? row.querySelector(".rowerr") : null;
+      if(re && !re.textContent){ re.textContent = e.name + ": " + e.msg; re.classList.add("show"); }
+    }
+    if(!first) first = el;
+  });
+  if(first){ try{ first.scrollIntoView({behavior:"smooth", block:"center"}); first.focus({preventScroll:true}); }catch(e){} }
 }
-function setStatus(s, msg){ statusEcho = s + " · " + msg; }
-var statusEcho = "";
-
 function resetDeclaredVat(){
   var d = document.getElementById("f_vat_declared");
   d.dataset.manual = "0"; recalc(); clearErrById("f_vat_declared");
@@ -547,12 +592,13 @@ function clearErrById(id){
   var el = document.getElementById(id); if(el){ el.classList.remove("bad"); }
   var e = document.getElementById("e_" + id); if(e){ e.classList.remove("show"); }
 }
+function clearErr(id){ clearErrById(id); }
 function tinMirror(){
   var t = snapshotValue("s_trn");
   document.getElementById("s_ea").value = t.length === 15 ? t.slice(0,10) : "";
   document.getElementById("s_tin").textContent = t.length === 15 ? ("Derived TIN (first 10 digits): " + t.slice(0,10) + " — this becomes the seller electronic address (MF 11) with endpoint 0235 (MF 12).") : "";
 }
-function nowStamp(){ return new Date().toISOString().slice(0,16).replace("T"," ") + " IST"; }
+function nowStamp(){ return new Date().toISOString().slice(0,16).replace("T"," ") + " GST (UTC+4)"; }
 
 /* ---------- register ---------- */
 function renderRegister(){
@@ -579,10 +625,6 @@ function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(c){ return
 
 /* ---------- init ---------- */
 document.addEventListener("DOMContentLoaded", function(){
-  [ "b_name" ].forEach(function(id){
-    var el = document.getElementById(id);
-    if (el && !el.value){ /* leave empty until sample loads */ }
-  });
   tinMirror(); recalc(); show("build");
 });
 document.addEventListener("keydown", function(e){
