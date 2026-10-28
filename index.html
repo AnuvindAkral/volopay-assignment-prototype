@@ -435,6 +435,7 @@ function submitInvoice(){
     return;
   }
   /* ASP-level business-rule recheck (simulated): declared VAT vs line VAT */
+  var L = lineData();
   var declaredVat = num(document.getElementById("f_vat_declared").value);
   var acceptance = { mlsAccept: true, rejectCode: null, rejectReason: null };
   if(Math.abs(declaredVat - res.totVat) > 0.01){
