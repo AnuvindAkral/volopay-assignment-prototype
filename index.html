@@ -141,15 +141,15 @@
         <summary style="cursor:pointer;font-size:12.5px;font-weight:600;color:var(--sub);margin:12px 0 8px">Your business (prefilled for this demo — click to edit)</summary>
       <fieldset style="margin-bottom:0"><legend>Seller details</legend>
         <div class="grid">
-          <div class="span2"><label for="s_name" title="UAE MoF mandatory field 10">Business name <span class="req" aria-hidden="true">*</span></label><input id="s_name" aria-required="true" oninput="clearErr('s_name')"><div class="err" id="e_s_name"></div></div>
-          <div><label for="s_trn" title="UAE MoF mandatory field 15">Your TRN · 15 digits <span class="req" aria-hidden="true">*</span></label><input id="s_trn" maxlength="15" aria-required="true" oninput="clearErr('s_trn'); tinMirror()"><div class="err" id="e_s_trn"></div><div class="note" id="s_tin"></div></div>
-          <div><label for="s_regid" title="UAE MoF mandatory field 13">Trade licence / registration ID <span class="req" aria-hidden="true">*</span></label><input id="s_regid" aria-required="true" oninput="clearErr('s_regid')"><div class="err" id="e_s_regid"></div></div>
+          <div class="span2"><label for="s_name" title="UAE MoF mandatory field 10">Business name <span class="req" aria-hidden="true">*</span></label><input id="s_name" value="Gulf Precision Facilities LLC" aria-required="true" oninput="clearErr('s_name')"><div class="err" id="e_s_name"></div></div>
+          <div><label for="s_trn" title="UAE MoF mandatory field 15">Your TRN · 15 digits <span class="req" aria-hidden="true">*</span></label><input id="s_trn" maxlength="15" value="100123456700001" aria-required="true" oninput="clearErr('s_trn'); tinMirror()"><div class="err" id="e_s_trn"></div><div class="note" id="s_tin"></div></div>
+          <div><label for="s_regid" title="UAE MoF mandatory field 13">Trade licence / registration ID <span class="req" aria-hidden="true">*</span></label><input id="s_regid" value="DED-887531" aria-required="true" oninput="clearErr('s_regid')"><div class="err" id="e_s_regid"></div></div>
           <div><label for="s_regidt" title="UAE MoF mandatory field 14">Registration ID type <span class="req" aria-hidden="true">*</span></label>
-            <select id="s_regidt" aria-required="true" onchange="clearErr('s_regidt')"><option value="">— select —</option><option value="TL">Trade licence</option><option value="EID">Emirates ID</option><option value="PAS">Passport</option><option value="CD">Cabinet decision</option></select><div class="err" id="e_s_regidt"></div></div>
-          <div class="span2"><label for="s_addr" title="UAE MoF mandatory field 17">Business address <span class="req" aria-hidden="true">*</span></label><input id="s_addr" aria-required="true" oninput="clearErr('s_addr')"><div class="err" id="e_s_addr"></div></div>
-          <div><label for="s_city" title="UAE MoF mandatory field 18">City <span class="req" aria-hidden="true">*</span></label><input id="s_city" aria-required="true" oninput="clearErr('s_city')"><div class="err" id="e_s_city"></div></div>
+            <select id="s_regidt" aria-required="true" onchange="clearErr('s_regidt')"><option value="">— select —</option><option value="TL" selected>Trade licence</option><option value="EID">Emirates ID</option><option value="PAS">Passport</option><option value="CD">Cabinet decision</option></select><div class="err" id="e_s_regidt"></div></div>
+          <div class="span2"><label for="s_addr" title="UAE MoF mandatory field 17">Business address <span class="req" aria-hidden="true">*</span></label><input id="s_addr" value="Unit 704, Axis Business Park" aria-required="true" oninput="clearErr('s_addr')"><div class="err" id="e_s_addr"></div></div>
+          <div><label for="s_city" title="UAE MoF mandatory field 18">City <span class="req" aria-hidden="true">*</span></label><input id="s_city" value="Dubai" aria-required="true" oninput="clearErr('s_city')"><div class="err" id="e_s_city"></div></div>
           <div><label for="s_sub" title="UAE MoF mandatory field 19">Emirate <span class="req" aria-hidden="true">*</span></label>
-            <select id="s_sub" aria-required="true" onchange="clearErr('s_sub')"><option value="">— select —</option><option value="AE-DU">Dubai</option><option value="AE-AZ">Abu Dhabi</option><option value="AE-SH">Sharjah</option><option value="AE-RK">Ras al-Khaimah</option></select><div class="err" id="e_s_sub"></div></div>
+            <select id="s_sub" aria-required="true" onchange="clearErr('s_sub')"><option value="">— select —</option><option value="AE-DU" selected>Dubai</option><option value="AE-AZ">Abu Dhabi</option><option value="AE-SH">Sharjah</option><option value="AE-RK">Ras al-Khaimah</option></select><div class="err" id="e_s_sub"></div></div>
           <div><label for="s_cc" title="UAE MoF mandatory field 20 — derived">Country (fixed for this demo)</label><input id="s_cc" value="AE" readonly tabindex="-1"></div>
           <div><label for="s_eid" title="UAE MoF mandatory field 12 — derived">E-invoice identifier (derived)</label><input id="s_eid" value="0235" readonly tabindex="-1"></div>
           <div class="span2"><label for="s_ea" title="UAE MoF mandatory field 11 — derived from your TRN">E-invoice address (derived from your TRN)</label><input id="s_ea" readonly tabindex="-1"></div>
@@ -264,7 +264,7 @@ var seq = 1000 + (new Date().getFullYear() % 100);
 invoices.forEach(function(x){ var m = /^AUTO-(\d+)$/.exec(x.id || ""); if(m){ seq = Math.max(seq, parseInt(m[1], 10) + 1); } });
 
 function save(){ try{ localStorage.setItem(LS, JSON.stringify(invoices)); }catch(e){ console.warn("Register save failed:", e); } }
-function load(){ try{ return JSON.parse(localStorage.getItem(LS)); }catch(e){ return null; } }
+function load(){ try{ var x = JSON.parse(localStorage.getItem(LS)); return Array.isArray(x) ? x : null; }catch(e){ return null; } }
 
 /* ---------- navigation ---------- */
 function show(v){
@@ -350,11 +350,11 @@ function addLine(){
   var row = document.createElement("div");
   row.className = "lineRow";
   row.innerHTML =
-    '<div data-label="Item name"><input data-f="n" aria-label="Item name" placeholder="Item name" oninput="recalc(); clearBad(this)"></div>' +
+    '<div data-label="Item name"><input data-f="n" aria-label="Item name" aria-required="true" placeholder="Item name" oninput="recalc(); clearBad(this)"></div>' +
     '<div data-label="Description (optional)"><input data-f="d" aria-label="Item description" placeholder="Item description" oninput="recalc(); clearBad(this)"></div>' +
-    '<div data-label="Qty"><input data-f="q" type="number" min="0" step="any" value="1" aria-label="Quantity" oninput="recalc(); clearBad(this)"></div>' +
+    '<div data-label="Qty"><input data-f="q" type="number" min="0" step="any" value="1" aria-label="Quantity" aria-required="true" oninput="recalc(); clearBad(this)"></div>' +
     '<div data-label="Unit"><select data-f="u" aria-label="Unit of measure"><option value="EA">EA</option><option value="HUR">HUR</option><option value="DAY">DAY</option><option value="KGM">KGM</option><option value="MTR">MTR</option><option value="LTR">LTR</option></select></div>' +
-    '<div data-label="Unit net price"><input data-f="p" type="number" min="0" step="any" placeholder="Net price" aria-label="Unit net price" oninput="recalc(); clearBad(this)"></div>' +
+    '<div data-label="Unit net price"><input data-f="p" type="number" min="0" step="any" placeholder="Net price" aria-label="Unit net price" aria-required="true" oninput="recalc(); clearBad(this)"></div>' +
     '<div data-label="VAT category"><select data-f="c" aria-label="VAT category" onchange="onCat(this);recalc()"><option value="S" data-rate="5">S · standard</option><option value="Z" data-rate="0">Z · zero-rated</option><option value="E" data-rate="0">E · exempt</option></select></div>' +
     '<div data-label="VAT rate %"><input data-f="r" type="number" min="0" step="any" value="5" aria-label="VAT rate percent" onchange="liveRate(this)" oninput="recalc(); clearBad(this)"></div>' +
     '<div><button type="button" aria-label="Remove line" class="ghost small" onclick="delLine(this)">×</button></div>' +
@@ -425,10 +425,13 @@ function lineData(){
 function recalc(){
   var L = lineData(), net = 0, vat = 0;
   L.forEach(function(x){ net += x.net; vat += (x.c === "S") ? x.net * x.r / 100 : 0; });
-  document.getElementById("t_net").textContent = m2(net);
-  document.getElementById("t_excl").textContent = m2(net);
-  document.getElementById("t_vat").textContent = m2(vat);
-  document.getElementById("t_incl").textContent = m2(net + vat);
+  /* display everything rounded to 2dp, and derive the total from the rounded
+     components so the figures shown are internally consistent */
+  var net2 = m2(net), vat2 = m2(vat);
+  document.getElementById("t_net").textContent = net2;
+  document.getElementById("t_excl").textContent = net2;
+  document.getElementById("t_vat").textContent = vat2;
+  document.getElementById("t_incl").textContent = m2(num(net2) + num(vat2));
   var declared = document.getElementById("f_vat_declared");
   if(declared && declared.dataset.manual !== "1"){ declared.value = m2(vat); }
 }
@@ -478,6 +481,10 @@ function validate(){
   if(!/^AED$/.test(v("f_cur"))){
     add("f_cur", "Currency", "This demo covers UAE domestic invoicing, so the currency must be AED.");
   }
+  var declared = document.getElementById("f_vat_declared");
+  if(declared && declared.value.trim() === ""){
+    add("f_vat_declared", "VAT total", "Enter the VAT total, or press \"Use the calculated total\".");
+  }
   return { errs: errs, totVat: totVat };
 }
 
@@ -508,7 +515,9 @@ function submitInvoice(){
     var L = lineData();
     var declaredVat = num(document.getElementById("f_vat_declared").value);
     var acceptance = { mlsAccept: true, rejectCode: null, rejectReason: null };
-    if(Math.abs(declaredVat - res.totVat) > 0.01){
+    /* compare against the 2dp figure the provider would re-check, not the unrounded sum */
+    var totVat2 = Math.round(res.totVat * 100) / 100;
+    if(Math.abs(declaredVat - totVat2) > 0.005){
       acceptance.mlsAccept = false;
       acceptance.rejectCode = "BR-VAT-DRIFT";
       acceptance.rejectReason = "The declared VAT total (" + m2(declaredVat) + " AED) doesn't match the VAT on the line items (" + m2(res.totVat) + " AED).";
@@ -673,7 +682,7 @@ function renderRegister(){
         (tech ? "<details><summary style='cursor:pointer;font-size:11px;color:var(--sub)'>Technical</summary><div class='note'>" + tech + "</div></details>" : "") + "</td>" +
       "<td>" + follow + "</td></tr>";
   }).join("");
-  body.innerHTML = "<table><thead><tr><th>Invoice</th><th>Customer</th><th>Amount</th><th>Status</th><th>Next step</th></tr></thead><tbody>" + rows + "</tbody></table>" +
+  body.innerHTML = '<div style="overflow-x:auto"><table style="min-width:620px"><thead><tr><th>Invoice</th><th>Customer</th><th>Amount</th><th>Status</th><th>Next step</th></tr></thead><tbody>' + rows + "</tbody></table></div>" +
     '<div class="bar"><button class="ghost small" onclick="clearReg()">Clear register</button></div>';
 }
 function clearReg(){ if(confirm("Clear all invoices from this browser?")){ invoices = []; save(); renderRegister(); } }
