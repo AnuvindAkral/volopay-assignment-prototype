@@ -452,7 +452,7 @@ function submitInvoice(){
     vat: document.getElementById("t_vat").textContent,
     status: "none", ts: stamp
   };
-  document.getElementById("pre").innerHTML = '<div class="callout ok"><b>Pre-validation passed.</b> All checked mandatory fields for an electronic Tax Invoice (fields 1–51, MOF list v1.1) are present and internally consistent.'
+  document.getElementById("pre").innerHTML = '<div class="callout ok"><b>Pre-validation passed.</b> All checked mandatory fields (MOF list v1.1) are present and internally consistent; the seller electronic address fields (mf 11–12) are derived from the seller TRN.'
     + '<br><span class="note">Next step in production: the request goes to the accredited service provider. Here it is simulated deterministically.</span></div>';
   var payload = buildPayload(L, res);
   renderAsp(payload, acceptance, res);
